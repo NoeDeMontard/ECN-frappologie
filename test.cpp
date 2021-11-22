@@ -8,7 +8,7 @@ int main ()
 
   cout << "Test fonction getline";
   getline (cin,test);
-  cout <<  test << endline;
+  cout <<  test << endl;
 
   return 0;
 }
