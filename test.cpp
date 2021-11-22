@@ -2,16 +2,14 @@
 #include <string>
 using namespace std;
 
-int main ()
+int main()
 {
-  string name;
+	string test;
 
-  cout << "Test fonction getline";
-  getline (cin,test);
-  cout <<  test << endl;
+	cout << "Test de la fonction getline" << endl << endl << endl;
+	getline(std::cin, test);
+	cout << endl << endl << test << endl;
 
-  return 0;
+	return 0;
 }
-
-//
 
