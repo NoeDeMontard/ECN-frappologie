@@ -8,6 +8,7 @@ using namespace std;
 #define MOUSE_CENTER 3
 #define KEY_BACK_SPACE 8 //OK
 #define KEY_TAB 9 //OK
+#define KEY_ENTER 13 //OK
 #define KEY_SHIFT 16
 #define KEY_CTRL 17
 #define KEY_ALT 18
@@ -15,6 +16,7 @@ using namespace std;
 #define KEY_ESC 27 //OK
 #define KEY_SPACE_BAR 32 //OK
 #define KEY_EXCLAMATION 33 //OK
+#define KEY_QUOTE 34 //OK
 #define KEY_HASHTAG 35 //OK
 #define KEY_DOLLAR 36 //OK
 #define KEY_ET_COMM 38 //OK
@@ -370,6 +372,12 @@ int main()
             break;
         case KEY_TAB:
             cout << endl << "Tab" << endl; // Tab
+            break;
+        case KEY_ENTER:
+            cout << endl << "Enter" << endl; // Enter
+            break;
+        case KEY_QUOTE:
+            cout << endl << "\"" << endl; // Enter
             break;
         case KEY_ESC:
             cout << endl << "Escape" << endl; // Escape
