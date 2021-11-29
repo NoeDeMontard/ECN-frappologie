@@ -1,7 +1,7 @@
 #include <conio.h>
 #include <iostream>
 #include "constantes.h"
-#include "affichage.h"
+#include "getKeyWrapper.h"
 using namespace std;
 
 
@@ -12,7 +12,7 @@ int main()
     int encore = 1;
     while (encore == 1) {
         c = _getch();
-        affichage(c, encore);
+        getKeyWrapper(c, encore);
     }
     return 0;
 }
