@@ -1,4 +1,4 @@
 #pragma once
 #include "constantes.h"
 
-void affichage(int c, int encore);
+void keyWrapper(int c, int encore);

@@ -3,7 +3,7 @@
 #include "constantes.h"
 using namespace std;
 
-void affichage(int c, int encore) {
+void keyWrapper(int c, int encore) {
 
     //Special keys case
     if (c == 0 || c == 224) { // Fisrt value returned by special keys
