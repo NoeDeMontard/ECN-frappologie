@@ -2,6 +2,7 @@
 #include <iostream>
 #include <chrono>
 #include <vector>
+#include <string>
 #include "constantes.h"
 #include "keyWrapper.h"
 using namespace std;
@@ -11,13 +12,14 @@ using namespace std;
 int main()
 {
     int c;
-    int encore = 1;
+    bool encore;
     // Time mesurement
     vector<chrono::time_point<chrono::high_resolution_clock>> times;
-    while (encore == 1) {
+    while (encore) {
         c = _getch();
         times.push_back(chrono::high_resolution_clock::now());
-        keyWrapper(c, encore);
+        string key = keyWrapper(c, encore);
+        cout << key;
     }
     // Compture the times and key combinaisons
     chrono::time_point<chrono::high_resolution_clock> tempsTouchePrecedente = times[0];

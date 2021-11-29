@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include "constantes.h"
 
-void keyWrapper(int c, int encore);
+std::string keyWrapper(int c, bool encore);

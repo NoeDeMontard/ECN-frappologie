@@ -1,9 +1,10 @@
 #include <conio.h>
 #include <iostream>
+#include <string>
 #include "constantes.h"
 using namespace std;
 
-void keyWrapper(int c, int encore) {
+string keyWrapper(int c, bool encore) {
 
     //Special keys case
     if (c == 0 || c == 224) { // Fisrt value returned by special keys
@@ -28,316 +29,317 @@ void keyWrapper(int c, int encore) {
     //General case
     switch (c) {
     case KEY_1:
-        cout << "1"; // 1
+        return "1"; // 1
         break;
     case KEY_2:
-        cout << "2"; // 2
+        return "2"; // 2
         break;
     case KEY_3:
-        cout << "3"; // 3
+        return "3"; // 3
         break;
     case KEY_4:
-        cout << "4"; // 4
+        return "4"; // 4
         break;
     case KEY_5:
-        cout << "5"; // 5
+        return "5"; // 5
         break;
     case KEY_6:
-        cout << "6"; // 6
+        return "6"; // 6
         break;
     case KEY_7:
-        cout << "7"; // 7
+        return "7"; // 7
         break;
     case KEY_8:
-        cout << "8"; // 8
+        return "8"; // 8
         break;
     case KEY_9:
-        cout << "9"; // 9
+        return "9"; // 9
         break;
     case KEY_0:
-        cout << "0"; // 0
+        return "0"; // 0
         break;
     case KEY_A_MAJ:
-        cout << "A"; // A
+        return "A"; // A
         break;
     case KEY_B_MAJ:
-        cout << "B"; // B
+        return "B"; // B
         break;
     case KEY_C_MAJ:
-        cout << "C"; // C
+        return "C"; // C
         break;
     case KEY_D_MAJ:
-        cout << "D"; // D
+        return "D"; // D
         break;
     case KEY_E_MAJ:
-        cout << "E"; // E
+        return "E"; // E
         break;
     case KEY_F_MAJ:
-        cout << "F"; // F
+        return "F"; // F
         break;
     case KEY_G_MAJ:
-        cout << "G"; // G
+        return "G"; // G
         break;
     case KEY_H_MAJ:
-        cout << "H"; // H
+        return "H"; // H
         break;
     case KEY_I_MAJ:
-        cout << "I"; // I
+        return "I"; // I
         break;
     case KEY_J_MAJ:
-        cout << "J"; // J
+        return "J"; // J
         break;
     case KEY_K_MAJ:
-        cout << "K"; // K
+        return "K"; // K
         break;
     case KEY_L_MAJ:
-        cout << "L"; // L
+        return "L"; // L
         break;
     case KEY_M_MAJ:
-        cout << "M"; // M
+        return "M"; // M
         break;
     case KEY_N_MAJ:
-        cout << "N"; // N
+        return "N"; // N
         break;
     case KEY_O_MAJ:
-        cout << "O"; // O
+        return "O"; // O
         break;
     case KEY_P_MAJ:
-        cout << "P"; // P
+        return "P"; // P
         break;
     case KEY_Q_MAJ:
-        cout << "Q"; // Q
+        return "Q"; // Q
         break;
     case KEY_R_MAJ:
-        cout << "R"; // R
+        return "R"; // R
         break;
     case KEY_S_MAJ:
-        cout << "S"; // S
+        return "S"; // S
         break;
     case KEY_T_MAJ:
-        cout << "T"; // T
+        return "T"; // T
         break;
     case KEY_U_MAJ:
-        cout << "U"; // U
+        return "U"; // U
         break;
     case KEY_V_MAJ:
-        cout << "V"; // V
+        return "V"; // V
         break;
     case KEY_W_MAJ:
-        cout << "W"; // W
+        return "W"; // W
         break;
     case KEY_X_MAJ:
-        cout << "X"; // X
+        return "X"; // X
         break;
     case KEY_Y_MAJ:
-        cout << "Y"; // Y
+        return "Y"; // Y
         break;
     case KEY_Z_MAJ:
-        cout << "Z"; // Z
+        return "Z"; // Z
         break;
     case KEY_A_MIN:
-        cout << "a"; // a
+        return "a"; // a
         break;
     case KEY_B_MIN:
-        cout << "b"; // b
+        return "b"; // b
         break;
     case KEY_C_MIN:
-        cout << "c"; // c
+        return "c"; // c
         break;
     case KEY_D_MIN:
-        cout << "d"; // d
+        return "d"; // d
         break;
     case KEY_E_MIN:
-        cout << "e"; // e
+        return "e"; // e
         break;
     case KEY_F_MIN:
-        cout << "f"; // f
+        return "f"; // f
         break;
     case KEY_G_MIN:
-        cout << "g"; // g
+        return "g"; // g
         break;
     case KEY_H_MIN:
-        cout << "h"; // h
+        return "h"; // h
         break;
     case KEY_I_MIN:
-        cout << "i"; // i
+        return "i"; // i
         break;
     case KEY_J_MIN:
-        cout << "j"; // j
+        return "j"; // j
         break;
     case KEY_K_MIN:
-        cout << "k"; // k
+        return "k"; // k
         break;
     case KEY_L_MIN:
-        cout << "l"; // l
+        return "l"; // l
         break;
     case KEY_M_MIN:
-        cout << "m"; // m
+        return "m"; // m
         break;
     case KEY_N_MIN:
-        cout << "n"; // n
+        return "n"; // n
         break;
     case KEY_O_MIN:
-        cout << "o"; // o
+        return "o"; // o
         break;
     case KEY_P_MIN:
-        cout << "p"; // p
+        return "p"; // p
         break;
     case KEY_Q_MIN:
-        cout << "q"; // q
+        return "q"; // q
         break;
     case KEY_R_MIN:
-        cout << "r"; // r
+        return "r"; // r
         break;
     case KEY_S_MIN:
-        cout << "s"; // s
+        return "s"; // s
         break;
     case KEY_T_MIN:
-        cout << "t"; // t
+        return "t"; // t
         break;
     case KEY_U_MIN:
-        cout << "u"; // u
+        return "u"; // u
         break;
     case KEY_V_MIN:
-        cout << "v"; // v
+        return "v"; // v
         break;
     case KEY_W_MIN:
-        cout << "w"; // w
+        return "w"; // w
         break;
     case KEY_X_MIN:
-        cout << "x"; // x
+        return "x"; // x
         break;
     case KEY_Y_MIN:
-        cout << "y"; // y
+        return "y"; // y
         break;
     case KEY_Z_MIN:
-        cout << "z"; // z
+        return "z"; // z
         break;
     case KEY_COMA_POINT:
-        cout << ";"; // Coma point
+        return ";"; // Coma point
         break;
     case KEY_CHEVRON_OPEN:
-        cout << "<"; // Opening chevron
+        return "<"; // Opening chevron
         break;
     case KEY_EQUAL:
-        cout << "="; // F3
+        return "="; // F3
         break;
     case KEY_CHEVRON_CLOSE:
-        cout << ">"; // Closing chevron
+        return ">"; // Closing chevron
         break;
     case KEY_INTERROGATION:
-        cout << "?"; // Interrogation point
+        return "?"; // Interrogation point
         break;
     case KEY_AROBASE:
-        cout << "@"; // Arobase
+        return "@"; // Arobase
         break;
     case KEY_F12:
-        cout << "F12"; // F12
+        return "F12"; // F12
         break;
     case KEY_E_ACCENT_AIGU:
-        cout << "é"; // E accent aigu minuscule
+        return "é"; // E accent aigu minuscule
         break;
     case KEY_E_ACCENT_GRAVE:
-        cout << "è"; // E accent grave minuscule
+        return "è"; // E accent grave minuscule
         break;
     case KEY_C_CEDILLA:
-        cout << "ç"; // C cédille minuscule
+        return "ç"; // C cédille minuscule
         break;
     case KEY_A_ACCENT:
-        cout << "à"; // A minuscule accent grave
+        return "à"; // A minuscule accent grave
         break;
     case KEY_BACK_SPACE:
-        cout << "Back Space"; // Back Space, vrai problème pour gérer l'effacement du dernier caractère
+        return "Back Space"; // Back Space, vrai problème pour gérer l'effacement du dernier caractère
         break;
     case KEY_TAB:
-        cout << "   "; // Tab
+        return "	"; // Tab
         break;
     case KEY_ENTER:
-        cout << endl; // Enter
+        encore = 0;
+        return "\n"; // Enter
         break;
     case KEY_QUOTE:
-        cout << "\""; // Enter
+        return "\""; // Enter
         break;
     case KEY_ESC:
-        encore = 0; // Escape
+        return "\esc"; // Escape
         break;
     case KEY_SPACE_BAR:
-        cout << " "; // Space bar
+        return " "; // Space bar
         break;
     case KEY_HASHTAG:
-        cout << "#"; // Hashtag
+        return "#"; // Hashtag
         break;
     case KEY_DOLLAR:
-        cout << "$"; // Dollar
+        return "$"; // Dollar
         break;
     case KEY_ET_COMM:
-        cout << "&"; // Et commercial
+        return "&"; // Et commercial
         break;
     case KEY_APOST:
-        cout << "'"; // Apostrophe
+        return "'"; // Apostrophe
         break;
     case KEY_PARENTHESIS_OPEN:
-        cout << "("; // Opening parenthesis
+        return "("; // Opening parenthesis
         break;
     case KEY_PARENTHESIS_CLOSE:
-        cout << ")"; // Closing parenthesis
+        return ")"; // Closing parenthesis
         break;
     case KEY_PLUS:
-        cout << "+"; // Plus
+        return "+"; // Plus
         break;
     case KEY_MINUS:
-        cout << "-"; // Minus
+        return "-"; // Minus
         break;
     case KEY_STAR:
-        cout << "*"; // Star
+        return "*"; // Star
         break;
     case KEY_COMA:
-        cout << ","; // Coma
+        return ","; // Coma
         break;
     case KEY_DOT:
-        cout << "."; // Dot
+        return "."; // Dot
         break;
     case KEY_DOUBLE_DOT:
-        cout << ":"; // Double dot
+        return ":"; // Double dot
         break;
     case KEY_BRACKET_OPEN:
-        cout << "["; // Opening bracket
+        return "["; // Opening bracket
         break;
     case KEY_ACCOLADE_OPEN:
-        cout << "{"; // Opening accolade
+        return "{"; // Opening accolade
         break;
     case KEY_BRACKET_CLOSE:
-        cout << "]"; // Closing bracket
+        return "]"; // Closing bracket
         break;
     case KEY_ACCOLADE_CLOSE:
-        cout << "}"; // Closing accolade
+        return "}"; // Closing accolade
         break;
     case KEY_VERTICAL_BAR:
-        cout << "|"; // Vertical bar
+        return "|"; // Vertical bar
         break;
     case KEY_ACCENT_GRAVE:
-        cout << "à"; // A accent grave
+        return "à"; // A accent grave
         break;
     case KEY_EXCLAMATION:
-        cout << "!"; // Exclamation point
+        return "!"; // Exclamation point
         break;
     case KEY_SLASH:
-        cout << "/"; // Slash
+        return "/"; // Slash
         break;
     case KEY_BACK_SLASH:
-        cout << " \\"; // Back slash
+        return " \\"; // Back slash
         break;
     case KEY_UNDERSCORE:
-        cout << "_"; // Undersocre
+        return "_"; // Undersocre
         break;
     case KEY_U_ACCENT_GRAVE:
-        cout << "ù"; // U accent grave
+        return "ù"; // U accent grave
         break;
     case KEY_DEGREE:
-        cout << "°"; // Degree
+        return "°"; // Degree
         break;
     case KEY_POURCENT:
-        cout << "%"; // Pourcent
+        return "%"; // Pourcent
         break;
 
 
@@ -384,5 +386,5 @@ void keyWrapper(int c, int encore) {
         //cout << endl << "Code de la touche : " << c << endl; // Return the key code
         break;
     }
-
+	return "";
 }
