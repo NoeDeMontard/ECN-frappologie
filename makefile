@@ -29,16 +29,16 @@ ifeq ($(compilePlatform), Linux)
 endif
 
 ifdef DEBUG
-$(warning compilePlatform $(compilePlatform))
-$(warning targetPlatform $(targetPlatform))
-$(warning compiler $(compiler))
+$(info compilePlatform $(compilePlatform))
+$(info targetPlatform  $(targetPlatform))
+$(info compiler        $(compiler))
 endif
 
-app.exe: main.o affichage.o
-	$(compiler) main.o affichage.o -o app.exe $(FLAGS)
+app.exe: main.o keyWrapper.o
+	$(compiler) main.o keyWrapper.o -o app.exe $(FLAGS)
 
-main.o:  main.cpp constantes.h affichage.h
+main.o:  main.cpp constantes.h keyWrapper.h
 	$(compiler) -c main.cpp $(FLAGS)
 
-affichage.o: affichage.cpp affichage.h constantes.h
-	$(compiler) -c affichage.cpp $(FLAGS)
+keyWrapper.o: keyWrapper.cpp keyWrapper.h constantes.h
+	$(compiler) -c keyWrapper.cpp $(FLAGS)
