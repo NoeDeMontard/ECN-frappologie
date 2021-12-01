@@ -4,7 +4,7 @@
 #include "constantes.h"
 using namespace std;
 
-string keyWrapper(int c, bool encore) {
+string keyWrapper(int c, bool &encore) {
 
     //Special keys case
     if (c == 0 || c == 224) { // Fisrt value returned by special keys
@@ -254,14 +254,14 @@ string keyWrapper(int c, bool encore) {
         return "	"; // Tab
         break;
     case KEY_ENTER:
-        encore = 0;
+        encore = false;
         return "\n"; // Enter
         break;
     case KEY_QUOTE:
         return "\""; // Enter
         break;
     case KEY_ESC:
-        return "\esc"; // Escape
+        encore = false;
         break;
     case KEY_SPACE_BAR:
         return " "; // Space bar
@@ -386,5 +386,5 @@ string keyWrapper(int c, bool encore) {
         //cout << endl << "Code de la touche : " << c << endl; // Return the key code
         break;
     }
-	return "";
+    return "";
 }
