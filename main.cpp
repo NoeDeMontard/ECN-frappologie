@@ -12,7 +12,7 @@ using namespace std;
 int main()
 {
     int c;
-    bool encore;
+    bool encore = true;
     // Time mesurement
     vector<chrono::time_point<chrono::high_resolution_clock>> times;
     while (encore) {
@@ -23,9 +23,9 @@ int main()
     }
     // Compture the times and key combinaisons
     chrono::time_point<chrono::high_resolution_clock> tempsTouchePrecedente = times[0];
-    for (int i = 0; i< times.size(); i++){
+    for (int i = 0; i < times.size(); i++) {
         chrono::time_point<chrono::high_resolution_clock> tempsToucheActuelle = times[i];
-        chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle-tempsTouchePrecedente).count(); // nanoseconds, microseconds, milliseconds
+        chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle - tempsTouchePrecedente).count(); // nanoseconds, microseconds, milliseconds
         tempsTouchePrecedente = tempsToucheActuelle;
         // TODO Processing the duration - key pair combinaison
     }
