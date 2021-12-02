@@ -25,9 +25,11 @@ int main()
     chrono::time_point<chrono::high_resolution_clock> tempsTouchePrecedente = times[0];
     for (int i = 0; i < times.size(); i++) {
         chrono::time_point<chrono::high_resolution_clock> tempsToucheActuelle = times[i];
-        chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle - tempsTouchePrecedente).count(); // nanoseconds, microseconds, milliseconds
+        //chrono::microseconds us = chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle - tempsTouchePrecedente); // nanoseconds, microseconds, milliseconds
+        long long int us = chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle - tempsTouchePrecedente).count(); // nanoseconds, microseconds, milliseconds
         tempsTouchePrecedente = tempsToucheActuelle;
         // TODO Processing the duration - key pair combinaison
+        cout << us << endl;
     }
     return 0;
 }
