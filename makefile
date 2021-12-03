@@ -10,6 +10,7 @@ endif
 
 compilePlatform := $(detected_OS)
 targetPlatform := Windows$(x86x64)
+buildFolder := build
 
 ifeq ($(compilePlatform), Linux)
 	ifeq ($(targetPlatform), Windowsx64)
@@ -34,11 +35,11 @@ $(info targetPlatform  $(targetPlatform))
 $(info compiler        $(compiler))
 endif
 
-app.exe: main.o keyWrapper.o
-	$(compiler) main.o keyWrapper.o -o app.exe $(FLAGS)
+app.exe: $(buildFolder)/main.o $(buildFolder)/keyWrapper.o
+	$(compiler) $(buildFolder)/main.o $(buildFolder)/keyWrapper.o -o app.exe $(FLAGS)
 
-main.o:  main.cpp constantes.h keyWrapper.h
-	$(compiler) -c main.cpp $(FLAGS)
+$(buildFolder)/main.o:  main.cpp constantes.h keyWrapper.h
+	$(compiler) -c main.cpp $(FLAGS) -o $(buildFolder)/main.o
 
-keyWrapper.o: keyWrapper.cpp keyWrapper.h constantes.h
-	$(compiler) -c keyWrapper.cpp $(FLAGS)
+$(buildFolder)/keyWrapper.o: keyWrapper.cpp keyWrapper.h constantes.h
+	$(compiler) -c keyWrapper.cpp $(FLAGS) -o $(buildFolder)/keyWrapper.o
