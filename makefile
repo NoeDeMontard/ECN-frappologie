@@ -35,11 +35,15 @@ $(info targetPlatform  $(targetPlatform))
 $(info compiler        $(compiler))
 endif
 
-app.exe: $(buildFolder)/main.o $(buildFolder)/keyWrapper.o
-	$(compiler) $(buildFolder)/main.o $(buildFolder)/keyWrapper.o -o app.exe $(FLAGS)
+app.exe: $(buildFolder)/main.o $(buildFolder)/keyWrapper.o $(buildFolder)/password.o
+	$(compiler) $(buildFolder)/main.o $(buildFolder)/keyWrapper.o $(buildFolder)/password.o -o app.exe $(FLAGS)
 
-$(buildFolder)/main.o:  main.cpp constantes.h keyWrapper.h
+$(buildFolder)/main.o:  main.cpp constantes.h keyWrapper.h password.h
 	$(compiler) -c main.cpp $(FLAGS) -o $(buildFolder)/main.o
 
 $(buildFolder)/keyWrapper.o: keyWrapper.cpp keyWrapper.h constantes.h
 	$(compiler) -c keyWrapper.cpp $(FLAGS) -o $(buildFolder)/keyWrapper.o
+
+$(buildFolder)/password.o: password.cpp password.h
+	$(compiler) -c password.cpp $(FLAGS) -o $(buildFolder)/password.o
+

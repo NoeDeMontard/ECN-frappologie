@@ -5,20 +5,31 @@
 #include <string>
 #include "constantes.h"
 #include "keyWrapper.h"
+#include "password.h"
+#include "initializeTimeIntervals.h"// A file used for some tests
 using namespace std;
 
-
+#define DEBUG true
 
 int main()
 {
+    // various vars
     int c;
     bool encore = true;
-    // Time mesurement
-    vector<chrono::time_point<chrono::high_resolution_clock>> times;
+    //
+    string passwordAttempt;
+    vector<chrono::time_point<chrono::high_resolution_clock>> times; // Time mesurement
+    vector<long long int> timeIntervals;
+    //string ps = "c'est un coin de verdure ou coule une riviere\n";
+    string ps = "c'est un coin\n"; // de verdure ou coule une riviere\n"; // TODO : const
+    vector<long long int> passwordTimeIntervals = initializeTimeIntervals(ps); // used for some tests
+    Password passwordControler(ps, passwordTimeIntervals);
+    cout << ps;
     while (encore) {
         c = _getch();
         times.push_back(chrono::high_resolution_clock::now());
         string key = keyWrapper(c, encore);
+        passwordAttempt += key;
         cout << key;
     }
     // Compture the times and key combinaisons
@@ -27,9 +38,9 @@ int main()
         chrono::time_point<chrono::high_resolution_clock> tempsToucheActuelle = times[i];
         //chrono::microseconds us = chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle - tempsTouchePrecedente); // nanoseconds, microseconds, milliseconds
         long long int us = chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle - tempsTouchePrecedente).count(); // nanoseconds, microseconds, milliseconds
-        tempsTouchePrecedente = tempsToucheActuelle;
-        // TODO Processing the duration - key pair combinaison
-        cout << us << endl;
+        tempsTouchePrecedente = tempsToucheActuelle;        
+        timeIntervals.push_back(us);
     }
+    cout << (passwordControler.checkPasswordAttempt(passwordAttempt, timeIntervals) ? "Success" : "Failure") << endl;
     return 0;
 }
