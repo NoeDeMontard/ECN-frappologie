@@ -6,7 +6,7 @@
 #include "constantes.h"
 #include "keyWrapper.h"
 #include "password.h"
-#include "initializeTimeIntervals.h"// A file used for some tests
+//#include "initializeTimeIntervals.h"// A file used for some tests
 using namespace std;
 
 #define DEBUG true
@@ -22,8 +22,9 @@ int main()
     vector<long long int> timeIntervals;
     //string ps = "c'est un coin de verdure ou coule une riviere\n";
     string ps = "c'est un coin\n"; // de verdure ou coule une riviere\n"; // TODO : const
-    vector<long long int> passwordTimeIntervals = initializeTimeIntervals(ps); // used for some tests
-    Password passwordControler(ps, passwordTimeIntervals);
+    //vector<long long int> passwordTimeIntervals = initializeTimeIntervals(ps); // used for some tests
+    //Password passwordControler(ps, passwordTimeIntervals);
+    Password passwordControler("passwordFile.ignore");
     cout << ps;
     while (encore) {
         c = _getch();
@@ -40,6 +41,7 @@ int main()
         long long int us = chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle - tempsTouchePrecedente).count(); // nanoseconds, microseconds, milliseconds
         tempsTouchePrecedente = tempsToucheActuelle;        
         timeIntervals.push_back(us);
+        cout << us << endl;
     }
     cout << (passwordControler.checkPasswordAttempt(passwordAttempt, timeIntervals) ? "Success" : "Failure") << endl;
     return 0;

@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <fstream>
 #include "password.h"
 
 #define DEBUG true
@@ -14,7 +15,21 @@ Password::Password(){
 }
 Password::Password(string filename){
 	 // TODO : read from a file for initialisation
-
+	 vector<string> timesStrings;
+	 
+	 ifstream passwordFile;
+	 passwordFile.open(filename);
+	 if (passwordFile.is_open() && passwordFile.good()){
+	 	getline(passwordFile, password);
+	 	while (passwordFile) {
+	 		string currentTimeString;
+	 		long long int currentTime;
+	 		getline(passwordFile, currentTimeString);
+			currentTime = stoll(currentTimeString); // String TO Long Long
+	 		times.push_back(currentTime);
+	 	}
+	 }
+	passwordFile.close();
 }
 Password::Password(string _password, vector<long long int> _times){
 	 password = _password;
@@ -35,7 +50,7 @@ bool Password::checkPasswordAttempt(string passwordAttempt, vector<long long int
 	}
 	if (timeIntervals.size() != times.size()) {
 		// Sould never be reached in normal usage: it the size is not the same, the password shoudln't be the same.
-		// It can be reached if a password contain a special caracter coded on pultiple char in the string though.
+		// It can be reached if a password contain a special caracter coded on multiple char in the string though.
 		if (DEBUG){
 			cout << "Size failure : " << timeIntervals.size() << "; " << times.size() << endl;
 			for (int i = 0; i < min(timeIntervals.size(), times.size()) ; i++){
