@@ -255,7 +255,8 @@ string keyWrapper(int c, bool &encore) {
         break;
     case KEY_ENTER:
         encore = false;
-        return "\n"; // Enter
+        //return "\n"; // Enter
+        return "";
         break;
     case KEY_QUOTE:
         return "\""; // Enter

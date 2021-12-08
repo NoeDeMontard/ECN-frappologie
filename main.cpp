@@ -21,9 +21,9 @@ int main()
     vector<chrono::time_point<chrono::high_resolution_clock>> times; // Time mesurement
     vector<long long int> timeIntervals;
     // Old version of getting the values of the password and time related variables
-    //const string ps = "c'est un coin de verdure ou coule une riviere\n";
-    //const string ps = "c'est un coin\n"; // de verdure ou coule une riviere\n";
-    //cout << ps;
+    //const string ps = "c'est un coin de verdure ou coule une riviere";
+    //const string ps = "c'est un coin";
+    //cout << ps; << endl
 
     //vector<long long int> passwordTimeIntervals = initializeTimeIntervals(ps); // used for some tests
     //Password passwordControler(ps, passwordTimeIntervals);
@@ -40,6 +40,7 @@ int main()
         passwordAttempt += key;
         cout << key;
     }
+    cout << endl;
     
     // Compture the times and key combinaisons
     chrono::time_point<chrono::high_resolution_clock> tempsTouchePrecedente = times[0];

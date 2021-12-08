@@ -21,7 +21,7 @@ Password::Password(string filename){
 	 if (passwordFile.is_open() && passwordFile.good()){
 	 	// First line : the password
 		getline(passwordFile, password);
-		password += "\n";
+		//password += "\n";
 		while (passwordFile) {
 			// Then the time intervals
 			string currentTimeString;
@@ -46,8 +46,8 @@ bool Password::checkPasswordAttempt(string passwordAttempt, vector<long long int
 	//TODO : better timing checks
 	if (DEBUG >= 2){
 		cout << "---" << endl;
-		cout << password;
-		cout << passwordAttempt;
+		cout << password << endl;
+		cout << passwordAttempt << endl;
 		cout << "---" << endl;
 	}
 	if (passwordAttempt != password) {
