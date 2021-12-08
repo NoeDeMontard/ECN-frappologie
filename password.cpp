@@ -20,15 +20,19 @@ Password::Password(string filename){
 	 ifstream passwordFile;
 	 passwordFile.open(filename);
 	 if (passwordFile.is_open() && passwordFile.good()){
-	 	getline(passwordFile, password);
-	 	while (passwordFile) {
-	 		string currentTimeString;
-	 		long long int currentTime;
-	 		getline(passwordFile, currentTimeString);
-			currentTime = stoll(currentTimeString); // String TO Long Long
-	 		times.push_back(currentTime);
-	 	}
-	 }
+		getline(passwordFile, password);
+		password += "\n";
+		while (passwordFile) {
+			string currentTimeString;
+			long long int currentTime;
+			getline(passwordFile, currentTimeString);
+			if (currentTimeString != ""){
+				if(DEBUG){cout << currentTimeString << endl;}
+				currentTime = stoll(currentTimeString, nullptr, 10); // String TO Long Long
+				times.push_back(currentTime);
+			}
+		}
+	}
 	passwordFile.close();
 }
 Password::Password(string _password, vector<long long int> _times){
