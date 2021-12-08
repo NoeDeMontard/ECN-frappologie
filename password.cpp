@@ -13,7 +13,7 @@ Password::Password(){
 	times;
 }
 
-Password::Password(string filename){
+Password::Password(const string filename){
 	 vector<string> timesStrings;
 	 ifstream passwordFile;
 	 

@@ -11,27 +11,19 @@
 //#include "initializeTimeIntervals.h"// A file used for some tests
 using namespace std;
 
-int main()
-{
-    // various vars
-    int c;
+void registerPasswordTimes(const string passwordFilePath){
+    // Various vars
+	int c;
     bool encore = true;
 
     // Password and time related variables
-
-    string passwordAttempt;
     string passwordAttemptMeasure;
-    vector<chrono::time_point<chrono::high_resolution_clock>> times; // Time mesurement
     vector<chrono::time_point<chrono::high_resolution_clock>> timesMeasure; // To get the user data
-    vector<long long int> timeIntervals;
-
-    // THE PASSWORD FILE INITIALISATION METHOD
-
-    vector<long long int> timeIntervalsMeasure;
-
+	vector<long long int> timeIntervalsMeasure;
+	
     //Reading the password from the file
 
-    fstream passwordFile("passwordFile.ignore", ios::in);
+    fstream passwordFile(passwordFilePath, ios::in);
     string ps;
     getline(passwordFile, ps);
     //ps += "\n";
@@ -41,7 +33,7 @@ int main()
 
     //Rewriting the password and the data in the file
 
-    fstream passwordFile2("passwordFile.ignore", ios::out);
+    fstream passwordFile2(passwordFilePath, ios::out);
     passwordFile2 << ps << endl;
     // Getting the times at each key pressed
     while (encore) {
@@ -68,9 +60,19 @@ int main()
         }
     }
     passwordFile2.close();
+}
 
-    // END OF THE PASSWORD FILE INITIALISATION METHOD
+bool testPasswordTimes(const string passwordFilePath){
+	// Various vars
+    int c;
+    bool encore = true;
 
+    // Password and time related variables
+
+    string passwordAttempt;
+    vector<chrono::time_point<chrono::high_resolution_clock>> times; // Time mesurement
+    chrono::time_point<chrono::high_resolution_clock> tempsTouchePrecedente;
+    vector<long long int> timeIntervals;
 
     // Old version of getting the values of the password and time related variables
     //const string ps = "c'est un coin de verdure ou coule une riviere";
@@ -81,7 +83,7 @@ int main()
     //Password passwordControler(ps, passwordTimeIntervals);
     
     // New method
-    Password passwordControler("passwordFile.ignore");
+    Password passwordControler(passwordFilePath);
 
 
     cout << endl << "Veuillez taper le mot de passe une seconde fois pour l'authentification :" << endl;
@@ -109,6 +111,19 @@ int main()
         if (DEBUG >= 2) {cout << us << endl;}
     }
     bool accessGranted = passwordControler.checkPasswordAttempt(passwordAttempt, timeIntervals);
+    return accessGranted;
+}
+
+int main()
+{
+    const string passwordFilePath = "passwordFile.ignore";
+
+    // THE PASSWORD FILE INITIALISATION METHOD
+    registerPasswordTimes(passwordFilePath);
+
+    // THE PASSWORD CHECKING METHOD
+    bool accessGranted = testPasswordTimes(passwordFilePath);
+    
     cout << ( accessGranted ? "Success" : "Failure") << endl;
     return 0;
 }
