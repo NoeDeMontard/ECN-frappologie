@@ -6,10 +6,9 @@
 #include "constantes.h"
 #include "keyWrapper.h"
 #include "password.h"
+#include "debug.h"
 //#include "initializeTimeIntervals.h"// A file used for some tests
 using namespace std;
-
-#define DEBUG true
 
 int main()
 {
@@ -50,7 +49,7 @@ int main()
         long long int us = chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle - tempsTouchePrecedente).count(); // nanoseconds, microseconds, milliseconds
         tempsTouchePrecedente = tempsToucheActuelle;        
         timeIntervals.push_back(us);
-        cout << us << endl;
+        if (DEBUG >= 2) {cout << us << endl;}
     }
     bool accessGranted = passwordControler.checkPasswordAttempt(passwordAttempt, timeIntervals);
     cout << ( accessGranted ? "Success" : "Failure") << endl;
