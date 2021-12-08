@@ -16,16 +16,24 @@ int main()
     // various vars
     int c;
     bool encore = true;
-    //
+    
+    // Password and time related variables
     string passwordAttempt;
     vector<chrono::time_point<chrono::high_resolution_clock>> times; // Time mesurement
     vector<long long int> timeIntervals;
-    //string ps = "c'est un coin de verdure ou coule une riviere\n";
-    string ps = "c'est un coin\n"; // de verdure ou coule une riviere\n"; // TODO : const
+    // Old version of getting the values of the password and time related variables
+    //const string ps = "c'est un coin de verdure ou coule une riviere\n";
+    //const string ps = "c'est un coin\n"; // de verdure ou coule une riviere\n";
+    //cout << ps;
+
     //vector<long long int> passwordTimeIntervals = initializeTimeIntervals(ps); // used for some tests
     //Password passwordControler(ps, passwordTimeIntervals);
+    // New method
     Password passwordControler("passwordFile.ignore");
-    cout << ps;
+    //string ps = passwordControler.getPassword();
+    passwordControler.printPassword();
+
+    // The password and times capture
     while (encore) {
         c = _getch();
         times.push_back(chrono::high_resolution_clock::now());
@@ -33,6 +41,7 @@ int main()
         passwordAttempt += key;
         cout << key;
     }
+    
     // Compture the times and key combinaisons
     chrono::time_point<chrono::high_resolution_clock> tempsTouchePrecedente = times[0];
     for (int i = 0; i < times.size(); i++) {
@@ -43,6 +52,7 @@ int main()
         timeIntervals.push_back(us);
         cout << us << endl;
     }
-    cout << (passwordControler.checkPasswordAttempt(passwordAttempt, timeIntervals) ? "Success" : "Failure") << endl;
+    bool accessGranted = passwordControler.checkPasswordAttempt(passwordAttempt, timeIntervals);
+    cout << ( accessGranted ? "Success" : "Failure") << endl;
     return 0;
 }

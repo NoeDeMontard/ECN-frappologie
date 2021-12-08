@@ -13,20 +13,22 @@ Password::Password(){
 	password = "";
 	times;
 }
+
 Password::Password(string filename){
-	 // TODO : read from a file for initialisation
 	 vector<string> timesStrings;
-	 
 	 ifstream passwordFile;
+	 
 	 passwordFile.open(filename);
 	 if (passwordFile.is_open() && passwordFile.good()){
+	 	// First line : the password
 		getline(passwordFile, password);
 		password += "\n";
 		while (passwordFile) {
+			// Then the time intervals
 			string currentTimeString;
 			long long int currentTime;
 			getline(passwordFile, currentTimeString);
-			if (currentTimeString != ""){
+			if (currentTimeString != ""){ // Escape a trailing blank line
 				if(DEBUG){cout << currentTimeString << endl;}
 				currentTime = stoll(currentTimeString, nullptr, 10); // String TO Long Long
 				times.push_back(currentTime);
@@ -35,13 +37,14 @@ Password::Password(string filename){
 	}
 	passwordFile.close();
 }
-Password::Password(string _password, vector<long long int> _times){
+
+Password::Password(const string _password, vector<long long int> _times){
 	 password = _password;
 	 times = _times;
 }
 
 bool Password::checkPasswordAttempt(string passwordAttempt, vector<long long int> timeIntervals){
-	//TODO
+	//TODO : better timing checks
 	if (DEBUG){
 		cout << "---" << endl;
 		cout << password;
@@ -76,4 +79,11 @@ bool Password::checkPasswordAttempt(string passwordAttempt, vector<long long int
 		}
 	}
 	return true;
+}
+
+string Password::getPassword(){
+	return password;
+}
+void Password::printPassword(){
+	cout << password << endl;
 }
