@@ -21,15 +21,28 @@ void registerPasswordTimes(const string passwordFilePath){
     vector<chrono::time_point<chrono::high_resolution_clock>> timesMeasure; // To get the user data
 	vector<long long int> timeIntervalsMeasure;
 	
-    //Reading the password from the file
+    
+    ////Reading the password from the file
 
-    fstream passwordFile(passwordFilePath, ios::in);
+    //fstream passwordFile(passwordFilePath, ios::in);
     string ps;
-    getline(passwordFile, ps);
-    //ps += "\n";
+    //getline(passwordFile, ps);
+    //cout << "Le mot de passe est le suivant, veuillez le taper une premiere fois :" << endl;
+    //cout << ps << endl;
+    //passwordFile.close();
+
+    cout << "Merci de rentrer le mot de passe (non secret)" << endl;
+    //cin >> ps; // TODO : remplacer pour lire la ligne entière correctement
+    while (encore) {
+            c = _getch();
+            string key = keyWrapper(c, encore);
+            ps += key;
+            cout << key;
+        }
+    cout << endl;
+    encore = true;
     cout << "Le mot de passe est le suivant, veuillez le taper une premiere fois :" << endl;
     cout << ps << endl;
-    passwordFile.close();
 
     //Rewriting the password and the data in the file
 
@@ -74,19 +87,11 @@ bool testPasswordTimes(const string passwordFilePath){
     chrono::time_point<chrono::high_resolution_clock> tempsTouchePrecedente;
     vector<long long int> timeIntervals;
 
-    // Old version of getting the values of the password and time related variables
-    //const string ps = "c'est un coin de verdure ou coule une riviere";
-    //const string ps = "c'est un coin";
-    //cout << ps; << endl
     
-    //vector<long long int> passwordTimeIntervals = initializeTimeIntervals(ps); // used for some tests
-    //Password passwordControler(ps, passwordTimeIntervals);
-    
-    // New method
     Password passwordControler(passwordFilePath);
 
 
-    cout << endl << "Veuillez taper le mot de passe une seconde fois pour l'authentification :" << endl;
+    cout << endl << "Veuillez taper le mot de passe pour l'authentification :" << endl;
     //string ps = passwordControler.getPassword();
     passwordControler.printPassword();
     
@@ -117,13 +122,27 @@ bool testPasswordTimes(const string passwordFilePath){
 int main()
 {
     const string passwordFilePath = "passwordFile.ignore";
-
-    // THE PASSWORD FILE INITIALISATION METHOD
-    registerPasswordTimes(passwordFilePath);
-
-    // THE PASSWORD CHECKING METHOD
-    bool accessGranted = testPasswordTimes(passwordFilePath);
     
-    cout << ( accessGranted ? "Success" : "Failure") << endl;
+    cout << "Would you like to register a new user (r) or to authentificate (A) ?" << endl;
+    string choice;
+    cin >> choice;
+    if (choice == "r" || choice == "R"){
+        string user;
+        cout << "Enter user name" << endl;
+        cin >> user;
+        // THE PASSWORD FILE INITIALISATION METHOD
+        registerPasswordTimes(user + passwordFilePath);
+    }
+    else {
+        string user;
+        cout << "Enter user name" << endl;
+        cin >> user;
+        // THE PASSWORD CHECKING METHOD
+        bool accessGranted = testPasswordTimes(user + passwordFilePath);
+        
+        cout << ( accessGranted ? "Success" : "Failure") << endl;
+    }
+
+    
     return 0;
 }
