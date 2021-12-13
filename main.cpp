@@ -32,7 +32,7 @@ void registerPasswordTimes(const string passwordFilePath) {
     // Various vars
     int c;
     bool encore = true;
-    int nbrDataPoints = 10;
+    int nbrDataPoints = 5;
 
     // Password and time related variables
     vector<vector<long long int>> timeIntervalsMeasure(nbrDataPoints);
@@ -61,8 +61,8 @@ void registerPasswordTimes(const string passwordFilePath) {
     passwordFile2 << ps << endl;
 
     //TODO : afficher 1 seul fois le mot de passe à taper
-
-    for (int j = 0; j < nbrDataPoints; j++) {
+    int j = 0;
+    while (j < nbrDataPoints) {
         string passwordAttemptMeasure;
         vector<chrono::time_point<chrono::high_resolution_clock>> timesMeasure; // To get the user data
         encore = true;
@@ -79,18 +79,27 @@ void registerPasswordTimes(const string passwordFilePath) {
         }
         cout << endl;
         encore = true;
-
-        // Calculating the intervals between each key pressed
-        chrono::time_point<chrono::high_resolution_clock> tempsTouchePrecedente = timesMeasure[0];
-        for (int i = 0; i < timesMeasure.size(); i++) {
-            chrono::time_point<chrono::high_resolution_clock> tempsToucheActuelle = timesMeasure[i];
-            long long int us = chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle - tempsTouchePrecedente).count(); // nanoseconds, microseconds, milliseconds
-            tempsTouchePrecedente = tempsToucheActuelle;
-            timeIntervalsMeasure[j].push_back(us);
+        
+        if (ps == passwordAttemptMeasure) {
+            // Calculating the intervals between each key pressed
+            chrono::time_point<chrono::high_resolution_clock> tempsTouchePrecedente = timesMeasure[0];
+            for (int i = 0; i < timesMeasure.size(); i++) {
+                chrono::time_point<chrono::high_resolution_clock> tempsToucheActuelle = timesMeasure[i];
+                long long int us = chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle - tempsTouchePrecedente).count(); // nanoseconds, microseconds, milliseconds
+                tempsTouchePrecedente = tempsToucheActuelle;
+                timeIntervalsMeasure[j].push_back(us);
+            }
+            j += 1;
         }
+        else {
+            cout << "Le mot de passe rentre est errone, veuillez reessayer" << endl;
+        }
+        
     }
-    vector<long long int> moyennes;
-    vector<long long int> ecartsType;
+    vector<long long int> moyennes(timeIntervalsMeasure.size(), 0);
+    vector<long long int> ecartsType(timeIntervalsMeasure.size(), 0);
+    //vector<long long int> moyennes;
+    //vector<long long int> ecartsType;
     moyenneEcartType(timeIntervalsMeasure, moyennes, ecartsType);
 
     // Writing the data in the file
@@ -154,7 +163,9 @@ int main()
 
     //vector<long long int> moyennes(nbrTouches, 0);
     //vector<long long int> ecartsType(nbrTouches, 0);
-
+    
+    cout << "Welcome in our 'Frappologie' authentification" << endl;
+    cout << "Developed by Noe de Montard & Clement Naudet" << endl;
     cout << "Would you like to register a new user (r) or to authentificate (A) ?" << endl;
     string choice;
     cin >> choice;
