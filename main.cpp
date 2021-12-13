@@ -11,17 +11,33 @@
 //#include "initializeTimeIntervals.h"// A file used for some tests
 using namespace std;
 
-void registerPasswordTimes(const string passwordFilePath){
+void moyenneEcartType(vector<vector<long long int>> data, vector<long long int> moyennes, vector<long long int> ecartsType) {
+    int nbrEssais = data.size();
+    int nbrTouches = data[0].size();
+
+    for (int i = 0; i < nbrEssais; i++) {
+        for (int j = 0; j < nbrTouches; j++) {
+            moyennes[j] += data[i][j];
+            ecartsType[j] += data[i][j] * data[i][j];
+        }
+    }
+    for (int j = 0; j < nbrTouches; j++) {
+        moyennes[j] /= nbrEssais;
+        ecartsType[j] /= nbrEssais;
+        ecartsType[j] -= moyennes[j];
+    }
+}
+
+void registerPasswordTimes(const string passwordFilePath) {
     // Various vars
-	int c;
+    int c;
     bool encore = true;
+    int nbrDataPoints = 10;
 
     // Password and time related variables
-    string passwordAttemptMeasure;
-    vector<chrono::time_point<chrono::high_resolution_clock>> timesMeasure; // To get the user data
-	vector<long long int> timeIntervalsMeasure;
-	
-    
+    vector<vector<long long int>> timeIntervalsMeasure(nbrDataPoints);
+
+
     ////Reading the password from the file
 
     //fstream passwordFile(passwordFilePath, ios::in);
@@ -32,51 +48,62 @@ void registerPasswordTimes(const string passwordFilePath){
     //passwordFile.close();
 
     cout << "Merci de rentrer le mot de passe (non secret)" << endl;
-    //cin >> ps; // TODO : remplacer pour lire la ligne entière correctement
     while (encore) {
-            c = _getch();
-            string key = keyWrapper(c, encore);
-            ps += key;
-            cout << key;
-        }
+        c = _getch();
+        string key = keyWrapper(c, encore);
+        ps += key;
+        cout << key;
+    }
     cout << endl;
-    encore = true;
-    cout << "Le mot de passe est le suivant, veuillez le taper une premiere fois :" << endl;
-    cout << ps << endl;
-
     //Rewriting the password and the data in the file
 
     fstream passwordFile2(passwordFilePath, ios::out);
     passwordFile2 << ps << endl;
-    // Getting the times at each key pressed
-    while (encore) {
-        c = _getch();
-        timesMeasure.push_back(chrono::high_resolution_clock::now());
-        string key = keyWrapper(c, encore);
-        passwordAttemptMeasure += key;
-        cout << key;
+
+    //TODO : afficher 1 seul fois le mot de passe à taper
+
+    for (int j = 0; j < nbrDataPoints; j++) {
+        string passwordAttemptMeasure;
+        vector<chrono::time_point<chrono::high_resolution_clock>> timesMeasure; // To get the user data
+        encore = true;
+        cout << "Le mot de passe est le suivant, veuillez le taper :" << endl;
+        cout << ps << endl;
+
+        // Getting the times at each key pressed
+        while (encore) {
+            c = _getch();
+            timesMeasure.push_back(chrono::high_resolution_clock::now());
+            string key = keyWrapper(c, encore);
+            passwordAttemptMeasure += key;
+            cout << key;
+        }
+        cout << endl;
+        encore = true;
+
+        // Calculating the intervals between each key pressed
+        chrono::time_point<chrono::high_resolution_clock> tempsTouchePrecedente = timesMeasure[0];
+        for (int i = 0; i < timesMeasure.size(); i++) {
+            chrono::time_point<chrono::high_resolution_clock> tempsToucheActuelle = timesMeasure[i];
+            long long int us = chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle - tempsTouchePrecedente).count(); // nanoseconds, microseconds, milliseconds
+            tempsTouchePrecedente = tempsToucheActuelle;
+            timeIntervalsMeasure[j].push_back(us);
+        }
     }
-    cout << endl;
-    encore = true;
-    // Calculating the intervals between each key pressed
-    chrono::time_point<chrono::high_resolution_clock> tempsTouchePrecedente = timesMeasure[0];
-    for (int i = 0; i < timesMeasure.size(); i++) {
-        chrono::time_point<chrono::high_resolution_clock> tempsToucheActuelle = timesMeasure[i];
-        long long int us = chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle - tempsTouchePrecedente).count(); // nanoseconds, microseconds, milliseconds
-        tempsTouchePrecedente = tempsToucheActuelle;
-        timeIntervalsMeasure.push_back(us);
-    }
+    vector<long long int> moyennes;
+    vector<long long int> ecartsType;
+    moyenneEcartType(timeIntervalsMeasure, moyennes, ecartsType);
+
     // Writing the data in the file
     if (passwordFile2) {
-        for (int i = 0; i < timesMeasure.size(); i++) {
-            passwordFile2 << timeIntervalsMeasure[i] << endl;
+        for (int i = 0; i < moyennes.size(); i++) {
+            passwordFile2 << moyennes[i] << endl;
         }
     }
     passwordFile2.close();
 }
 
-bool testPasswordTimes(const string passwordFilePath){
-	// Various vars
+bool testPasswordTimes(const string passwordFilePath) {
+    // Various vars
     int c;
     bool encore = true;
 
@@ -87,14 +114,14 @@ bool testPasswordTimes(const string passwordFilePath){
     chrono::time_point<chrono::high_resolution_clock> tempsTouchePrecedente;
     vector<long long int> timeIntervals;
 
-    
+
     Password passwordControler(passwordFilePath);
 
 
     cout << endl << "Veuillez taper le mot de passe pour l'authentification :" << endl;
     //string ps = passwordControler.getPassword();
     passwordControler.printPassword();
-    
+
     // The password and times capture
     while (encore) {
         c = _getch();
@@ -104,7 +131,7 @@ bool testPasswordTimes(const string passwordFilePath){
         cout << key;
     }
     cout << endl;
-    
+
     // Compture the times and key combinaisons
     tempsTouchePrecedente = times[0];
     for (int i = 0; i < times.size(); i++) {
@@ -113,20 +140,25 @@ bool testPasswordTimes(const string passwordFilePath){
         long long int us = chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle - tempsTouchePrecedente).count(); // nanoseconds, microseconds, milliseconds
         tempsTouchePrecedente = tempsToucheActuelle;
         timeIntervals.push_back(us);
-        if (DEBUG >= 2) {cout << us << endl;}
+        if (DEBUG >= 2) { cout << us << endl; }
     }
     bool accessGranted = passwordControler.checkPasswordAttempt(passwordAttempt, timeIntervals);
     return accessGranted;
 }
 
+
+
 int main()
 {
     const string passwordFilePath = "passwordFile.ignore";
-    
+
+    //vector<long long int> moyennes(nbrTouches, 0);
+    //vector<long long int> ecartsType(nbrTouches, 0);
+
     cout << "Would you like to register a new user (r) or to authentificate (A) ?" << endl;
     string choice;
     cin >> choice;
-    if (choice == "r" || choice == "R"){
+    if (choice == "r" || choice == "R") {
         string user;
         cout << "Enter user name" << endl;
         cin >> user;
@@ -139,10 +171,10 @@ int main()
         cin >> user;
         // THE PASSWORD CHECKING METHOD
         bool accessGranted = testPasswordTimes(user + passwordFilePath);
-        
-        cout << ( accessGranted ? "Success" : "Failure") << endl;
+
+        cout << (accessGranted ? "Success" : "Failure") << endl;
     }
 
-    
+
     return 0;
 }
