@@ -104,7 +104,7 @@ bool Password::checkPasswordAttempt(string passwordAttempt, vector<long long int
 		auto timeInterval = timeIntervals[i];
 		bool timingFailure;
 		if (useTimesDeviations) {
-			timingFailure = timeInterval > times[i] + 2*timesDeviations[i] || timeInterval - times[i] - 2*timesDeviations[i]; //2*deviation for 95% of success with the gaussian distribution hypothesis
+			timingFailure = timeInterval > times[i] + 2*timesDeviations[i] || timeInterval < times[i] - 2*timesDeviations[i]; //2*deviation for 95% of success with the gaussian distribution hypothesis
 		} else {
 			timingFailure = times[i]>3*timeInterval || timeInterval>3*times[i];
 		}
@@ -112,7 +112,7 @@ bool Password::checkPasswordAttempt(string passwordAttempt, vector<long long int
 			if (DEBUG){cout << "Timing failure" << endl;}
 			if (DEBUG >= 2){
 				for (int j = 0; j < min(timeIntervals.size(), times.size()) ; j++){
-					cout << timeIntervals[j] << "; " << times[j] << "; " << timeIntervals[j]/(times[j]+1) << endl;
+					cout << "Mesure: " << timeIntervals[j] << "; Reference: " << times[j] << "; " << (useTimesDeviations? (timeInterval - times[i]) : (timeIntervals[j]/(times[j]+1)) ) << endl;
 				}
 			}
 			return false;

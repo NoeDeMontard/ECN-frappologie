@@ -117,6 +117,11 @@ void registerPasswordTimes(const string passwordFilePath) {
             if(DEBUG >= 3){cout << "moyennes[i] " << moyennes[i]  << endl;}
             passwordFile2 << moyennes[i] << endl;
         }
+        passwordFile2 << endl;
+        for (int i = 0; i < ecartsType.size(); i++) {
+            if(DEBUG >= 3){cout << "ecartsType[i] " << ecartsType[i]  << endl;}
+            passwordFile2 << ecartsType[i] << endl;
+        }
     }
     passwordFile2.close();
 }
