@@ -12,6 +12,7 @@
 using namespace std;
 
 void registerPasswordTimes(const string passwordFilePath){
+    // TODO : verifier qu'on ecrase pas un autre utilisateur
     // Various vars
 	int c;
     bool encore = true;
@@ -32,7 +33,6 @@ void registerPasswordTimes(const string passwordFilePath){
     //passwordFile.close();
 
     cout << "Merci de rentrer le mot de passe (non secret)" << endl;
-    //cin >> ps; // TODO : remplacer pour lire la ligne entière correctement
     while (encore) {
             c = _getch();
             string key = keyWrapper(c, encore);
@@ -131,14 +131,14 @@ int main()
         cout << "Enter user name" << endl;
         cin >> user;
         // THE PASSWORD FILE INITIALISATION METHOD
-        registerPasswordTimes(user + passwordFilePath);
+        registerPasswordTimes(user + "." +  passwordFilePath); // TODO : excape folder navigation capability
     }
     else {
         string user;
         cout << "Enter user name" << endl;
         cin >> user;
         // THE PASSWORD CHECKING METHOD
-        bool accessGranted = testPasswordTimes(user + passwordFilePath);
+        bool accessGranted = testPasswordTimes(user + "." + passwordFilePath); // TODO : excape folder navigation capability
         
         cout << ( accessGranted ? "Success" : "Failure") << endl;
     }

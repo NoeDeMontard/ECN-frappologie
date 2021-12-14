@@ -67,7 +67,7 @@ bool Password::checkPasswordAttempt(string passwordAttempt, vector<long long int
 	}
 	for (int i = 0; i <  timeIntervals.size(); i++){
 		auto timeInterval = timeIntervals[i];
-		if (times[i]>20*timeInterval || timeInterval>20*times[i]) {
+		if (times[i]>3*timeInterval || timeInterval>3*times[i]) {
 			if (DEBUG){cout << "Timing failure" << endl;}
 			if (DEBUG >= 2){
 				for (int j = 0; j < min(timeIntervals.size(), times.size()) ; j++){
