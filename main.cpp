@@ -5,6 +5,7 @@
 #include <chrono>
 #include <vector>
 #include <string>
+#include <filesystem>
 #include "constantes.h"
 #include "keyWrapper.h"
 #include "password.h"
@@ -35,26 +36,40 @@ void moyenneEcartType(vector<vector<long long int>> data, vector<long long int>&
     }
 }
 
+bool testPasswordTimes(const string passwordFilePath); // TODO : réorganiser pour éviter d'avoir besoin de cette ligne
+
 void registerPasswordTimes(const string passwordFilePath) {
-    // TODO : verifier qu'on ecrase pas un autre utilisateur
+    // Check if user exist, if he does, ask for if the user whant to overwrite the old password take (with a password verification in case of overwriting)
+    if (filesystem::exists(passwordFilePath)) {
+        cout << "L'utilisateur existe deja" << endl;
+        cout << "Voulez vous re-enregistrer le mot de passe ? (o/N)" << endl;
+        string changePasswordInput;
+        cin >> changePasswordInput;
+        if (changePasswordInput != "o" && changePasswordInput != "O") {
+            return;
+        } else {
+            bool accessGranted = testPasswordTimes(passwordFilePath); // TODO : excape folder navigation capability
+            if (!accessGranted) {
+                cout << "Echec de l'authentification" << endl;
+                cout << "L'enregistrement a echoue" << endl;
+                return;
+            }
+        }
+    }
+
+    // User should be registered (again)
+
     // Various vars
-    int c;
-    bool encore = true;
-    int nbrDataPoints = 5;
+    int c; // the current character code
+    bool encore = true; // get a new character
+    int nbrDataPoints = 5; // number of password take
 
     // Password and time related variables
     vector<vector<long long int>> timeIntervalsMeasure(nbrDataPoints);
 
 
-    ////Reading the password from the file
-
-    //fstream passwordFile(passwordFilePath, ios::in);
+    // Reading the password to use
     string ps;
-    //getline(passwordFile, ps);
-    //cout << "Le mot de passe est le suivant, veuillez le taper une premiere fois :" << endl;
-    //cout << ps << endl;
-    //passwordFile.close();
-
     cout << "Merci de rentrer le mot de passe (non secret)" << endl;
     while (encore) {
         c = _getch();
@@ -63,8 +78,8 @@ void registerPasswordTimes(const string passwordFilePath) {
         cout << key;
     }
     cout << endl;
-    //Rewriting the password and the data in the file
 
+    //Rewriting the password and the data in the file
     fstream passwordFile2(passwordFilePath, ios::out);
     passwordFile2 << ps << endl;
 
@@ -105,10 +120,10 @@ void registerPasswordTimes(const string passwordFilePath) {
         }
         
     }
+
     vector<long long int> moyennes(timeIntervalsMeasure[0].size(), 0);
     vector<long long int> ecartsType(timeIntervalsMeasure[0].size(), 0);
-    //vector<long long int> moyennes;
-    //vector<long long int> ecartsType;
+
     moyenneEcartType(timeIntervalsMeasure, moyennes, ecartsType);
 
     // Writing the data in the file
@@ -122,17 +137,17 @@ void registerPasswordTimes(const string passwordFilePath) {
             if(DEBUG >= 3){cout << "ecartsType[i] " << ecartsType[i]  << endl;}
             passwordFile2 << ecartsType[i] << endl;
         }
+        cout << "Enregistrement effectue avec succes" << endl;
     }
     passwordFile2.close();
 }
 
 bool testPasswordTimes(const string passwordFilePath) {
-    // Various vars
-    int c;
-    bool encore = true;
+    // Var used for input
+    int c; // the current character code
+    bool encore = true; // get a new character
 
     // Password and time related variables
-
     string passwordAttempt;
     vector<chrono::time_point<chrono::high_resolution_clock>> times; // Time mesurement
     chrono::time_point<chrono::high_resolution_clock> tempsTouchePrecedente;
@@ -142,8 +157,7 @@ bool testPasswordTimes(const string passwordFilePath) {
     Password passwordControler(passwordFilePath);
 
 
-    cout << endl << "Veuillez taper le mot de passe pour l'authentification :" << endl;
-    //string ps = passwordControler.getPassword();
+    cout << endl << "Veuillez entrer le mot de passe pour l'authentification :" << endl;
     passwordControler.printPassword();
 
     // The password and times capture
@@ -160,7 +174,6 @@ bool testPasswordTimes(const string passwordFilePath) {
     tempsTouchePrecedente = times[0];
     for (int i = 0; i < times.size(); i++) {
         chrono::time_point<chrono::high_resolution_clock> tempsToucheActuelle = times[i];
-        //chrono::microseconds us = chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle - tempsTouchePrecedente); // nanoseconds, microseconds, milliseconds
         long long int us = chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle - tempsTouchePrecedente).count(); // nanoseconds, microseconds, milliseconds
         tempsTouchePrecedente = tempsToucheActuelle;
         timeIntervals.push_back(us);
@@ -176,8 +189,6 @@ int main()
 {
     const string passwordFilePath = "passwordFile.ignore";
 
-    //vector<long long int> moyennes(nbrTouches, 0);
-    //vector<long long int> ecartsType(nbrTouches, 0);
     
     cout << "Welcome in our 'Frappologie' authentification" << endl;
     cout << "Developed by Noe de Montard & Clement Naudet" << endl;
