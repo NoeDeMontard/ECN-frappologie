@@ -19,41 +19,48 @@ Password::Password(const string filename){
 	// Then the time intervals
 	// Then a blank line
 	// Then the associated standard deviations
-	 vector<string> timesStrings;
-	 ifstream passwordFile;
-	 
-	 passwordFile.open(filename);
-	 if (passwordFile.is_open() && passwordFile.good()){
-	 	// First line : the password
-		getline(passwordFile, password);
-		//password += "\n";
-		while (passwordFile) {
-			// Then the time intervals
-			string currentTimeString;
-			long long int currentTime;
-			getline(passwordFile, currentTimeString);
-			if (currentTimeString == ""){ // a blank line, then the associated standard deviations
-				break;
-			} else {
-				if(DEBUG >= 3){cout << currentTimeString << endl;}
-				currentTime = stoll(currentTimeString, nullptr, 10); // String TO Long Long
-				times.push_back(currentTime);
+	vector<string> timesStrings;
+	ifstream passwordFile;
+
+	passwordFile.open(filename);
+
+	string currentSection;
+	while (passwordFile)
+	{
+		string line;
+		long long int line2int;
+		getline(passwordFile, line);
+		if (DEBUG >= 3){cout << currentSection << " " << line << endl;}
+		if (!line.empty())
+		{
+			if (line[0] == '[')
+			{
+				currentSection = line;
 			}
-		}
-		while (passwordFile) {
-			// Then the associated standard deviations
-			string currentTimeString;
-			long long int currentTime;
-			getline(passwordFile, currentTimeString);
-			if (currentTimeString == ""){ // a blank line might appear at the end of the file
-				break;
-			} else {
-				if(DEBUG >= 3){cout << currentTimeString << endl;}
-				currentTime = stoll(currentTimeString, nullptr, 10); // String TO Long Long
-				timesDeviations.push_back(currentTime);
+			else
+			{
+				if (currentSection == "[Password]")
+				{
+					password = line;
+				}
+				else if (currentSection == "[Time Intervals]")
+				{
+					line2int = stoll(line, nullptr, 10); // String TO Long Long
+					times.push_back(line2int);
+				}
+				else if (currentSection == "[Time Deviations]")
+				{
+					line2int = stoll(line, nullptr, 10); // String TO Long Long
+					timesDeviations.push_back(line2int);
+				}
+				else if (currentSection == "[Show Password]")
+				{
+					showPassword = (line == "1");
+				}
 			}
 		}
 	}
+	if (DEBUG >= 3){cout << password << endl;}
 	passwordFile.close();
 }
 
@@ -121,9 +128,8 @@ bool Password::checkPasswordAttempt(string passwordAttempt, vector<long long int
 	return true;
 }
 
-string Password::getPassword(){
-	return password;
-}
 void Password::printPassword(){
-	cout << password << endl;
+	if (showPassword) {
+		cout << password << endl;
+	}
 }

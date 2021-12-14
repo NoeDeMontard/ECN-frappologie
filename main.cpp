@@ -39,6 +39,7 @@ void moyenneEcartType(vector<vector<long long int>> data, vector<long long int>&
 bool testPasswordTimes(const string passwordFilePath); // TODO : réorganiser pour éviter d'avoir besoin de cette ligne
 
 void registerPasswordTimes(const string passwordFilePath) {
+    // TODO : avoid issue with partial file caused by interuption during registration, preventing registering again with the same username
     // Check if user exist, if he does, ask for if the user whant to overwrite the old password take (with a password verification in case of overwriting)
     if (filesystem::exists(passwordFilePath)) {
         cout << "L'utilisateur existe deja" << endl;
@@ -59,6 +60,23 @@ void registerPasswordTimes(const string passwordFilePath) {
 
     // User should be registered (again)
 
+    // Openning the file to overwrite
+    fstream passwordFile(passwordFilePath, ios::out);
+
+    // Does the user want to be remembered his password ?
+    string secretPassword;
+    cout << "Voulez vous que votre mot de passe soit secret (o/N) ?" << endl;
+    cin >> secretPassword;
+    if (secretPassword == "o" || secretPassword == "O"){
+        secretPassword = "0";
+    } else {
+        secretPassword = "1";
+    }
+    passwordFile << "[Show Password]" << endl;
+    passwordFile << secretPassword << endl;
+    passwordFile << endl;
+
+
     // Various vars
     int c; // the current character code
     bool encore = true; // get a new character
@@ -70,7 +88,7 @@ void registerPasswordTimes(const string passwordFilePath) {
 
     // Reading the password to use
     string ps;
-    cout << "Merci de rentrer le mot de passe (non secret)" << endl;
+    cout << "Merci de rentrer le mot de passe" << endl;
     while (encore) {
         c = _getch();
         string key = keyWrapper(c, encore);
@@ -80,8 +98,8 @@ void registerPasswordTimes(const string passwordFilePath) {
     cout << endl;
 
     //Rewriting the password and the data in the file
-    fstream passwordFile2(passwordFilePath, ios::out);
-    passwordFile2 << ps << endl;
+    passwordFile << "[Password]" << endl;
+    passwordFile << ps << endl;
 
     //TODO : afficher 1 seul fois le mot de passe à taper
     int j = 0;
@@ -89,8 +107,7 @@ void registerPasswordTimes(const string passwordFilePath) {
         string passwordAttemptMeasure;
         vector<chrono::time_point<chrono::high_resolution_clock>> timesMeasure; // To get the user data
         encore = true;
-        cout << "Le mot de passe est le suivant, veuillez le taper :" << endl;
-        cout << ps << endl;
+        cout << "Entrez une nouvelle fois votre mot de passe" << endl;;
 
         // Getting the times at each key pressed
         while (encore) {
@@ -127,19 +144,21 @@ void registerPasswordTimes(const string passwordFilePath) {
     moyenneEcartType(timeIntervalsMeasure, moyennes, ecartsType);
 
     // Writing the data in the file
-    if (passwordFile2) {
+    if (passwordFile) {
+        passwordFile << "[Time Intervals]" << endl;
         for (int i = 0; i < moyennes.size(); i++) {
             if(DEBUG >= 3){cout << "moyennes[i] " << moyennes[i]  << endl;}
-            passwordFile2 << moyennes[i] << endl;
+            passwordFile << moyennes[i] << endl;
         }
-        passwordFile2 << endl;
+        passwordFile << endl;
+        passwordFile << "[Time Deviations]" << endl;
         for (int i = 0; i < ecartsType.size(); i++) {
             if(DEBUG >= 3){cout << "ecartsType[i] " << ecartsType[i]  << endl;}
-            passwordFile2 << ecartsType[i] << endl;
+            passwordFile << ecartsType[i] << endl;
         }
         cout << "Enregistrement effectue avec succes" << endl;
     }
-    passwordFile2.close();
+    passwordFile.close();
 }
 
 bool testPasswordTimes(const string passwordFilePath) {
@@ -157,7 +176,7 @@ bool testPasswordTimes(const string passwordFilePath) {
     Password passwordControler(passwordFilePath);
 
 
-    cout << endl << "Veuillez entrer le mot de passe pour l'authentification :" << endl;
+    cout << "Veuillez entrer le mot de passe pour l'authentification :" << endl;
     passwordControler.printPassword();
 
     // The password and times capture
