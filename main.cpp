@@ -1,4 +1,5 @@
 #include <conio.h>
+#include <math.h>
 #include <iostream>
 #include <fstream>
 #include <chrono>
@@ -11,20 +12,26 @@
 //#include "initializeTimeIntervals.h"// A file used for some tests
 using namespace std;
 
-void moyenneEcartType(vector<vector<long long int>> data, vector<long long int> moyennes, vector<long long int> ecartsType) {
+void moyenneEcartType(vector<vector<long long int>> data, vector<long long int>& moyennes, vector<long long int>& ecartsType) {
     int nbrEssais = data.size();
     int nbrTouches = data[0].size();
 
     for (int i = 0; i < nbrEssais; i++) {
         for (int j = 0; j < nbrTouches; j++) {
+            if(DEBUG >= 3){cout << "data[i][j]" << data[i][j] << endl;}
             moyennes[j] += data[i][j];
             ecartsType[j] += data[i][j] * data[i][j];
         }
     }
     for (int j = 0; j < nbrTouches; j++) {
+        if(DEBUG >= 3){cout << "moyennes[j] initial " << moyennes[j]  << endl;}
+        if(DEBUG >= 3){cout << "ecartsType[j] initial " << ecartsType[j]  << endl;}
         moyennes[j] /= nbrEssais;
         ecartsType[j] /= nbrEssais;
         ecartsType[j] -= moyennes[j];
+        ecartsType[j] = sqrt (ecartsType[j]);
+        if(DEBUG >= 3){cout << "moyennes[j] " << moyennes[j]  << endl;}
+        if(DEBUG >= 3){cout << "ecartsType[j] " << ecartsType[j]  << endl;}
     }
 }
 
@@ -88,6 +95,7 @@ void registerPasswordTimes(const string passwordFilePath) {
                 chrono::time_point<chrono::high_resolution_clock> tempsToucheActuelle = timesMeasure[i];
                 long long int us = chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle - tempsTouchePrecedente).count(); // nanoseconds, microseconds, milliseconds
                 tempsTouchePrecedente = tempsToucheActuelle;
+                if(DEBUG >= 3){cout << us << endl;}
                 timeIntervalsMeasure[j].push_back(us);
             }
             j += 1;
@@ -97,8 +105,8 @@ void registerPasswordTimes(const string passwordFilePath) {
         }
         
     }
-    vector<long long int> moyennes(timeIntervalsMeasure.size(), 0);
-    vector<long long int> ecartsType(timeIntervalsMeasure.size(), 0);
+    vector<long long int> moyennes(timeIntervalsMeasure[0].size(), 0);
+    vector<long long int> ecartsType(timeIntervalsMeasure[0].size(), 0);
     //vector<long long int> moyennes;
     //vector<long long int> ecartsType;
     moyenneEcartType(timeIntervalsMeasure, moyennes, ecartsType);
@@ -106,6 +114,7 @@ void registerPasswordTimes(const string passwordFilePath) {
     // Writing the data in the file
     if (passwordFile2) {
         for (int i = 0; i < moyennes.size(); i++) {
+            if(DEBUG >= 3){cout << "moyennes[i] " << moyennes[i]  << endl;}
             passwordFile2 << moyennes[i] << endl;
         }
     }
