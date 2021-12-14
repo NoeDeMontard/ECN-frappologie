@@ -8,6 +8,7 @@ class Password{
 private:
 	string password;
 	vector<long long int> times;
+	vector<long long int> timesDeviations;
 public:
 	Password();
 	Password(const string filename);
