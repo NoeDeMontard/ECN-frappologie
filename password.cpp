@@ -16,11 +16,6 @@ Password::Password(){
 }
 
 Password::Password(const string filename){
-	// First line : the password
-	// Then the time intervals
-	// Then a blank line
-	// Then the associated standard deviations
-	vector<string> timesStrings;
 	ifstream passwordFile;
 
 	passwordFile.open(filename);
