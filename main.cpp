@@ -1,5 +1,6 @@
 #include <conio.h>
 #include <math.h>
+#include <windows.h> // Used by CreateDirectory
 #include <iostream>
 #include <fstream>
 #include <chrono>
@@ -12,6 +13,8 @@
 #include "debug.h"
 //#include "initializeTimeIntervals.h"// A file used for some tests
 using namespace std;
+
+// TODO : if the user want a secret password, don't show the key pressed
 
 void moyenneEcartType(vector<vector<long long int>> data, vector<long long int>& moyennes, vector<long long int>& ecartsType) {
     int nbrEssais = data.size();
@@ -206,7 +209,14 @@ bool testPasswordTimes(const string passwordFilePath) {
 
 int main()
 {
-    const string passwordFilePath = "passwordFile.ignore";
+    const string passwordFileName = "passwordFile";
+    const string passwordFolderPath = "passwords";
+
+
+    // Create the passwordFolder if it doesn't exists
+    CreateDirectory(passwordFolderPath.c_str(), NULL);
+    //filesystem::create_directory(passwordFolderPath);// If c++17, more portable
+    // Both fail if the passwordFolderPath use a path with a missing parent directory
 
     
     cout << "Welcome in our 'Frappologie' authentification" << endl;
@@ -217,18 +227,18 @@ int main()
     if (choice == "r" || choice == "R") {
         string user;
         cout << "Enter user name" << endl;
-        cin >> user;
+        cin >> user; // TODO : sanitise username to excape folder navigation capability
         // THE PASSWORD FILE INITIALISATION METHOD
-        registerPasswordTimes(user + "." +  passwordFilePath); // TODO : excape folder navigation capability
+        registerPasswordTimes(passwordFolderPath + "/" + user + "." + passwordFileName); 
     }
     else {
         string user;
         cout << "Enter user name" << endl;
         cin >> user;
         // THE PASSWORD CHECKING METHOD
-        bool accessGranted = testPasswordTimes(user + "." + passwordFilePath); // TODO : excape folder navigation capability
+        bool accessGranted = testPasswordTimes(passwordFolderPath + "/" + user + "." + passwordFileName);
 
-        cout << ( accessGranted ? "Success" : "Failure") << endl;
+        cout << (accessGranted ? "Success" : "Failure") << endl;
     }
 
 

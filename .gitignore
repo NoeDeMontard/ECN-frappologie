@@ -34,3 +34,5 @@
 initializeTimeIntervals.h
 
 *.ignore
+
+passwords
