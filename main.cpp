@@ -19,20 +19,20 @@ void moyenneEcartType(vector<vector<long long int>> data, vector<long long int>&
 
     for (int i = 0; i < nbrEssais; i++) {
         for (int j = 0; j < nbrTouches; j++) {
-            if(DEBUG >= 3){cout << "data[i][j]" << data[i][j] << endl;}
+            if (DEBUG >= 3) { cout << "data[i][j]" << data[i][j] << endl; }
             moyennes[j] += data[i][j];
             ecartsType[j] += data[i][j] * data[i][j];
         }
     }
     for (int j = 0; j < nbrTouches; j++) {
-        if(DEBUG >= 3){cout << "moyennes[j] initial " << moyennes[j]  << endl;}
-        if(DEBUG >= 3){cout << "ecartsType[j] initial " << ecartsType[j]  << endl;}
+        if (DEBUG >= 3) { cout << "moyennes[j] initial " << moyennes[j] << endl; }
+        if (DEBUG >= 3) { cout << "ecartsType[j] initial " << ecartsType[j] << endl; }
         moyennes[j] /= nbrEssais;
         ecartsType[j] /= nbrEssais;
         ecartsType[j] -= moyennes[j];
-        ecartsType[j] = sqrt (ecartsType[j]);
-        if(DEBUG >= 3){cout << "moyennes[j] " << moyennes[j]  << endl;}
-        if(DEBUG >= 3){cout << "ecartsType[j] " << ecartsType[j]  << endl;}
+        ecartsType[j] = sqrt(ecartsType[j]);
+        if (DEBUG >= 3) { cout << "moyennes[j] " << moyennes[j] << endl; }
+        if (DEBUG >= 3) { cout << "ecartsType[j] " << ecartsType[j] << endl; }
     }
 }
 
@@ -41,14 +41,18 @@ bool testPasswordTimes(const string passwordFilePath); // TODO : réorganiser po
 void registerPasswordTimes(const string passwordFilePath) {
     // TODO : avoid issue with partial file caused by interuption during registration, preventing registering again with the same username
     // Check if user exist, if he does, ask for if the user whant to overwrite the old password take (with a password verification in case of overwriting)
-    if (filesystem::exists(passwordFilePath)) {
+    ifstream ifile;
+    ifile.open(passwordFilePath);
+    if (ifile) {
+        ifile.close();
         cout << "L'utilisateur existe deja" << endl;
         cout << "Voulez vous re-enregistrer le mot de passe ? (o/N)" << endl;
         string changePasswordInput;
         cin >> changePasswordInput;
         if (changePasswordInput != "o" && changePasswordInput != "O") {
             return;
-        } else {
+        }
+        else {
             bool accessGranted = testPasswordTimes(passwordFilePath); // TODO : excape folder navigation capability
             if (!accessGranted) {
                 cout << "Echec de l'authentification" << endl;
@@ -67,9 +71,10 @@ void registerPasswordTimes(const string passwordFilePath) {
     string secretPassword;
     cout << "Voulez vous que votre mot de passe soit secret (o/N) ?" << endl;
     cin >> secretPassword;
-    if (secretPassword == "o" || secretPassword == "O"){
+    if (secretPassword == "o" || secretPassword == "O") {
         secretPassword = "0";
-    } else {
+    }
+    else {
         secretPassword = "1";
     }
     passwordFile << "[Show Password]" << endl;
@@ -119,7 +124,7 @@ void registerPasswordTimes(const string passwordFilePath) {
         }
         cout << endl;
         encore = true;
-        
+
         if (ps == passwordAttemptMeasure) {
             // Calculating the intervals between each key pressed
             chrono::time_point<chrono::high_resolution_clock> tempsTouchePrecedente = timesMeasure[0];
@@ -127,7 +132,7 @@ void registerPasswordTimes(const string passwordFilePath) {
                 chrono::time_point<chrono::high_resolution_clock> tempsToucheActuelle = timesMeasure[i];
                 long long int us = chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle - tempsTouchePrecedente).count(); // nanoseconds, microseconds, milliseconds
                 tempsTouchePrecedente = tempsToucheActuelle;
-                if(DEBUG >= 3){cout << us << endl;}
+                if (DEBUG >= 3) { cout << us << endl; }
                 timeIntervalsMeasure[j].push_back(us);
             }
             j += 1;
@@ -135,7 +140,7 @@ void registerPasswordTimes(const string passwordFilePath) {
         else {
             cout << "Le mot de passe rentre est errone, veuillez reessayer" << endl;
         }
-        
+
     }
 
     vector<long long int> moyennes(timeIntervalsMeasure[0].size(), 0);
@@ -147,13 +152,13 @@ void registerPasswordTimes(const string passwordFilePath) {
     if (passwordFile) {
         passwordFile << "[Time Intervals]" << endl;
         for (int i = 0; i < moyennes.size(); i++) {
-            if(DEBUG >= 3){cout << "moyennes[i] " << moyennes[i]  << endl;}
+            if (DEBUG >= 3) { cout << "moyennes[i] " << moyennes[i] << endl; }
             passwordFile << moyennes[i] << endl;
         }
         passwordFile << endl;
         passwordFile << "[Time Deviations]" << endl;
         for (int i = 0; i < ecartsType.size(); i++) {
-            if(DEBUG >= 3){cout << "ecartsType[i] " << ecartsType[i]  << endl;}
+            if (DEBUG >= 3) { cout << "ecartsType[i] " << ecartsType[i] << endl; }
             passwordFile << ecartsType[i] << endl;
         }
         cout << "Enregistrement effectue avec succes" << endl;
@@ -208,7 +213,7 @@ int main()
 {
     const string passwordFilePath = "passwordFile.ignore";
 
-    
+
     cout << "Welcome in our 'Frappologie' authentification" << endl;
     cout << "Developed by Noe de Montard & Clement Naudet" << endl;
     cout << "Would you like to register a new user (r) or to authentificate (A) ?" << endl;
@@ -219,7 +224,7 @@ int main()
         cout << "Enter user name" << endl;
         cin >> user;
         // THE PASSWORD FILE INITIALISATION METHOD
-        registerPasswordTimes(user + "." +  passwordFilePath); // TODO : excape folder navigation capability
+        registerPasswordTimes(user + "." + passwordFilePath); // TODO : excape folder navigation capability
     }
     else {
         string user;
@@ -228,7 +233,7 @@ int main()
         // THE PASSWORD CHECKING METHOD
         bool accessGranted = testPasswordTimes(user + "." + passwordFilePath); // TODO : excape folder navigation capability
 
-        cout << ( accessGranted ? "Success" : "Failure") << endl;
+        cout << (accessGranted ? "Success" : "Failure") << endl;
     }
 
 
