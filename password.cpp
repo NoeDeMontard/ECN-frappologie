@@ -12,6 +12,7 @@ Password::Password(){
 	password = "";
 	times;
 	timesDeviations;
+	showPassword = false;
 }
 
 Password::Password(const string filename){
@@ -25,6 +26,7 @@ Password::Password(const string filename){
 	passwordFile.open(filename);
 
 	string currentSection;
+	showPassword = false;
 	while (passwordFile)
 	{
 		string line;
@@ -68,6 +70,7 @@ Password::Password(const string _password, vector<long long int> _times){
 	 password = _password;
 	 times = _times;
 	 timesDeviations;
+	 showPassword = false;
 }
 
 bool Password::checkPasswordAttempt(string passwordAttempt, vector<long long int> timeIntervals){
@@ -111,7 +114,7 @@ bool Password::checkPasswordAttempt(string passwordAttempt, vector<long long int
 		auto timeInterval = timeIntervals[i];
 		bool timingFailure;
 		if (useTimesDeviations) {
-			timingFailure = timeInterval > times[i] + 2*timesDeviations[i] || timeInterval < times[i] - 2*timesDeviations[i]; //2*deviation for 95% of success with the gaussian distribution hypothesis
+			timingFailure = timeInterval > times[i] + 1*timesDeviations[i] || timeInterval < times[i] - 1*timesDeviations[i]; //2*deviation for 95% of success with the gaussian distribution hypothesis
 		} else {
 			timingFailure = times[i]>3*timeInterval || timeInterval>3*times[i];
 		}
