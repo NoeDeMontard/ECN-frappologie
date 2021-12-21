@@ -1,6 +1,7 @@
 #include <conio.h>
 #include <math.h>
 #include <windows.h> // Used by CreateDirectory
+#include <cstdio>    // Used by remove in c++<17
 #include <iostream>
 #include <fstream>
 #include <chrono>
@@ -11,7 +12,7 @@
 #include "keyWrapper.h"
 #include "password.h"
 #include "debug.h"
-//#include "initializeTimeIntervals.h"// A file used for some tests
+
 using namespace std;
 
 // TODO : if the user want a secret password, don't show the key pressed
@@ -42,7 +43,6 @@ void moyenneEcartType(vector<vector<long long int>> data, vector<long long int>&
 bool testPasswordTimes(const string passwordFilePath); // TODO : réorganiser pour éviter d'avoir besoin de cette ligne
 
 void registerPasswordTimes(const string passwordFilePath) {
-    // TODO : avoid issue with partial file caused by interuption during registration, preventing registering again with the same username
     // Check if user exist, if he does, ask for if the user whant to overwrite the old password take (with a password verification in case of overwriting)
     //if (filesystem::exists(passwordFilePath)) {// If c++17
     ifstream ifile; // if c++<17
@@ -68,8 +68,10 @@ void registerPasswordTimes(const string passwordFilePath) {
 
     // User should be registered (again)
 
+    string tmpPasswordFilePath = "passwordFileTmp.ignore";
+
     // Openning the file to overwrite
-    fstream passwordFile(passwordFilePath, ios::out);
+    fstream passwordFileTmp(tmpPasswordFilePath, ios::out);
 
     // Does the user want to be remembered his password ?
     string secretPassword;
@@ -81,9 +83,9 @@ void registerPasswordTimes(const string passwordFilePath) {
     else {
         secretPassword = "1";
     }
-    passwordFile << "[Show Password]" << endl;
-    passwordFile << secretPassword << endl;
-    passwordFile << endl;
+    passwordFileTmp << "[Show Password]" << endl;
+    passwordFileTmp << secretPassword << endl;
+    passwordFileTmp << endl;
 
 
     // Various vars
@@ -107,8 +109,8 @@ void registerPasswordTimes(const string passwordFilePath) {
     cout << endl;
 
     //Rewriting the password and the data in the file
-    passwordFile << "[Password]" << endl;
-    passwordFile << ps << endl;
+    passwordFileTmp << "[Password]" << endl;
+    passwordFileTmp << ps << endl;
 
     //TODO : afficher 1 seul fois le mot de passe à taper
     int j = 0;
@@ -153,21 +155,41 @@ void registerPasswordTimes(const string passwordFilePath) {
     moyenneEcartType(timeIntervalsMeasure, moyennes, ecartsType);
 
     // Writing the data in the file
-    if (passwordFile) {
-        passwordFile << "[Time Intervals]" << endl;
+    if (passwordFileTmp) {
+        passwordFileTmp << "[Time Intervals]" << endl;
         for (int i = 0; i < moyennes.size(); i++) {
             if (DEBUG >= 3) { cout << "moyennes[i] " << moyennes[i] << endl; }
-            passwordFile << moyennes[i] << endl;
+            passwordFileTmp << moyennes[i] << endl;
         }
-        passwordFile << endl;
-        passwordFile << "[Time Deviations]" << endl;
+        passwordFileTmp << endl;
+        passwordFileTmp << "[Time Deviations]" << endl;
         for (int i = 0; i < ecartsType.size(); i++) {
             if (DEBUG >= 3) { cout << "ecartsType[i] " << ecartsType[i] << endl; }
-            passwordFile << ecartsType[i] << endl;
+            passwordFileTmp << ecartsType[i] << endl;
         }
+
+        passwordFileTmp.close();
+
+
+		// Move the temporary file to the user file
+
+		//filesystem::copy_file(tmpPasswordFilePath, passwordFilePath, filesystem::copy_options::overwrite_existing); // c++17 // Issue :  Doesn't sems to take into account the overwrite part
+		//std::filesystem::remove(tmpPasswordFilePath); // C++17
+
+		// IF c++<17
+		// Copy
+		std::ifstream src(tmpPasswordFilePath, std::ios::binary);
+		std::ofstream dst(passwordFilePath,    std::ios::binary);
+		dst << src.rdbuf();
+		src.close();
+		dst.close();
+
+		// Remove tmp file
+		remove(tmpPasswordFilePath.c_str());
+		//ENDIF c++<17
+
         cout << "Enregistrement effectue avec succes" << endl;
     }
-    passwordFile.close();
 }
 
 bool testPasswordTimes(const string passwordFilePath) {
