@@ -6,6 +6,7 @@ using namespace std;
 
 class Password{
 private:
+	bool userExists;
 	bool showPassword;
 	string password;
 	vector<long long int> times;

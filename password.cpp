@@ -13,12 +13,19 @@ Password::Password(){
 	times;
 	timesDeviations;
 	showPassword = false;
+	userExists = false;
 }
 
 Password::Password(const string filename){
+	userExists = false;
 	ifstream passwordFile;
 
 	passwordFile.open(filename);
+
+	if (passwordFile)
+	{
+		userExists = true;
+	}
 
 	string currentSection;
 	showPassword = false;
@@ -61,15 +68,16 @@ Password::Password(const string filename){
 	passwordFile.close();
 }
 
+// TODO : Should this method still be avaliable?
 Password::Password(const string _password, vector<long long int> _times){
 	 password = _password;
 	 times = _times;
 	 timesDeviations;
 	 showPassword = false;
+	 userExists = true;
 }
 
 bool Password::checkPasswordAttempt(string passwordAttempt, vector<long long int> timeIntervals){
-	//TODO : better timing checks
 	bool useTimesDeviations = true; // Enable / disable the better timing check
 	
 	if (DEBUG >= 2){
@@ -79,6 +87,12 @@ bool Password::checkPasswordAttempt(string passwordAttempt, vector<long long int
 		cout << "---" << endl;
 	}
 	
+	// Check user existance
+	if (!userExists) {
+		if (DEBUG){cout << "User invalid" << endl;}
+		return false;
+	}
+
 	// Check password
 	if (passwordAttempt != password) {
 		if (DEBUG){cout << "Password failure" << endl;}
