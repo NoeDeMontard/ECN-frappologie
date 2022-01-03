@@ -51,8 +51,7 @@ Elle a de multiples avantages par rapport à d'autres méthodes :
 - *Faiblement contraint.* Son initialisation peut être relativement peu contraignante selon le nombre de données d'enrôlement. Son utilisation n'augmente pas réellement les contraintes d'une authentification par mot de passe classique.
 
 
-Vous pouvez trouver plus d'informations sur la frappologie dans la thèse de Giot "Contributions à la dynamique de frappe au clavier :
-multibiométrie, biométrie douce et mise à jour de la référence".
+Vous pouvez trouver plus d'informations sur la frappologie dans la thèse de Giot ["Contributions à la dynamique de frappe au clavier : multibiométrie, biométrie douce et mise à jour de la référence"](https://tel.archives-ouvertes.fr/tel-00748915/file/PhD_giot.pdf).
 
 ## Quelques définitions
 ### Identification et authentification
