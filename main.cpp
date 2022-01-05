@@ -23,20 +23,20 @@ void moyenneEcartType(vector<vector<long long int>> data, vector<long long int>&
 
     for (int i = 0; i < nbrEssais; i++) {
         for (int j = 0; j < nbrTouches; j++) {
-            if (DEBUG >= 3) { cout << "data[i][j]" << data[i][j] << endl; }
+            if (VERBOSITY >= 6) { cout << "data[i][j]" << data[i][j] << endl; }
             moyennes[j] += data[i][j];
             ecartsType[j] += data[i][j] * data[i][j];
         }
     }
     for (int j = 0; j < nbrTouches; j++) {
-        if (DEBUG >= 3) { cout << "moyennes[j] initial " << moyennes[j] << endl; }
-        if (DEBUG >= 3) { cout << "ecartsType[j] initial " << ecartsType[j] << endl; }
+        if (VERBOSITY >= 6) { cout << "moyennes[j] initial " << moyennes[j] << endl; }
+        if (VERBOSITY >= 6) { cout << "ecartsType[j] initial " << ecartsType[j] << endl; }
         moyennes[j] /= nbrEssais;
         ecartsType[j] /= nbrEssais;
         ecartsType[j] -= moyennes[j];
         ecartsType[j] = sqrt(ecartsType[j]);
-        if (DEBUG >= 3) { cout << "moyennes[j] " << moyennes[j] << endl; }
-        if (DEBUG >= 3) { cout << "ecartsType[j] " << ecartsType[j] << endl; }
+        if (VERBOSITY >= 6) { cout << "moyennes[j] " << moyennes[j] << endl; }
+        if (VERBOSITY >= 6) { cout << "ecartsType[j] " << ecartsType[j] << endl; }
     }
 }
 
@@ -138,7 +138,7 @@ void registerPasswordTimes(const string passwordFilePath) {
                 chrono::time_point<chrono::high_resolution_clock> tempsToucheActuelle = timesMeasure[i];
                 long long int us = chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle - tempsTouchePrecedente).count(); // nanoseconds, microseconds, milliseconds
                 tempsTouchePrecedente = tempsToucheActuelle;
-                if (DEBUG >= 3) { cout << us << endl; }
+                if (VERBOSITY >= 6) { cout << us << endl; }
                 timeIntervalsMeasure[j].push_back(us);
             }
             j += 1;
@@ -158,13 +158,13 @@ void registerPasswordTimes(const string passwordFilePath) {
     if (passwordFileTmp) {
         passwordFileTmp << "[Time Intervals]" << endl;
         for (int i = 0; i < moyennes.size(); i++) {
-            if (DEBUG >= 3) { cout << "moyennes[i] " << moyennes[i] << endl; }
+            if (VERBOSITY >= 6) { cout << "moyennes[i] " << moyennes[i] << endl; }
             passwordFileTmp << moyennes[i] << endl;
         }
         passwordFileTmp << endl;
         passwordFileTmp << "[Time Deviations]" << endl;
         for (int i = 0; i < ecartsType.size(); i++) {
-            if (DEBUG >= 3) { cout << "ecartsType[i] " << ecartsType[i] << endl; }
+            if (VERBOSITY >= 6) { cout << "ecartsType[i] " << ecartsType[i] << endl; }
             passwordFileTmp << ecartsType[i] << endl;
         }
 
@@ -227,7 +227,7 @@ bool testPasswordTimes(const string passwordFilePath) {
         long long int us = chrono::duration_cast<chrono::microseconds>(tempsToucheActuelle - tempsTouchePrecedente).count(); // nanoseconds, microseconds, milliseconds
         tempsTouchePrecedente = tempsToucheActuelle;
         timeIntervals.push_back(us);
-        if (DEBUG >= 2) { cout << us << endl; }
+        if (VERBOSITY >= 6) { cout << us << endl; }
     }
     bool accessGranted = passwordControler.checkPasswordAttempt(passwordAttempt, timeIntervals);
     return accessGranted;
@@ -235,10 +235,11 @@ bool testPasswordTimes(const string passwordFilePath) {
 
 
 
-int main()
+int main(int argc, char* argv[])
 {
     const string passwordFileName = "passwordFile";
     const string passwordFolderPath = "passwords";
+    bool accessGranted = true;
 
 
     // Create the passwordFolder if it doesn't exists
@@ -264,11 +265,13 @@ int main()
         cout << "Enter user name" << endl;
         cin >> user;
         // THE PASSWORD CHECKING METHOD
-        bool accessGranted = testPasswordTimes(passwordFolderPath + "/" + user + "." + passwordFileName);
+        accessGranted = testPasswordTimes(passwordFolderPath + "/" + user + "." + passwordFileName);
 
-        cout << (accessGranted ? "Success" : "Failure") << endl;
+        if (VERBOSITY>=1){
+            cout << (accessGranted ? "Success" : "Failure") << endl;
+        }
     }
 
 
-    return 0;
+    return (accessGranted?0:3);
 }

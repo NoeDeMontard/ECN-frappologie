@@ -34,7 +34,8 @@ Password::Password(const string filename){
 		string line;
 		long long int line2int;
 		getline(passwordFile, line);
-		if (DEBUG >= 3){cout << currentSection << " " << line << endl;}
+		if (VERBOSITY >= 4){cout << currentSection << endl;}
+		if (VERBOSITY >= 6){cout << line << endl;}
 		if (!line.empty())
 		{
 			if (line[0] == '[')
@@ -64,7 +65,6 @@ Password::Password(const string filename){
 			}
 		}
 	}
-	if (DEBUG >= 3){cout << password << endl;}
 	passwordFile.close();
 }
 
@@ -80,22 +80,19 @@ Password::Password(const string _password, vector<long long int> _times){
 bool Password::checkPasswordAttempt(string passwordAttempt, vector<long long int> timeIntervals){
 	bool useTimesDeviations = true; // Enable / disable the better timing check
 	
-	if (DEBUG >= 2){
-		cout << "---" << endl;
-		cout << password << endl;
-		cout << passwordAttempt << endl;
-		cout << "---" << endl;
-	}
-	
+	if (VERBOSITY >= 8){cout << "Password : " << password << endl;}
+	if (VERBOSITY >= 6){cout << "Password attempt : " << passwordAttempt << endl;}
+
+
 	// Check user existance
 	if (!userExists) {
-		if (DEBUG){cout << "User invalid" << endl;}
+		if (VERBOSITY >= 3){cout << "User invalid" << endl;}
 		return false;
 	}
 
 	// Check password
 	if (passwordAttempt != password) {
-		if (DEBUG){cout << "Password failure" << endl;}
+		if (VERBOSITY >= 3){cout << "Password failure" << endl;}
 		return false;
 	}
 	
@@ -103,18 +100,15 @@ bool Password::checkPasswordAttempt(string passwordAttempt, vector<long long int
 	if (timeIntervals.size() != times.size()) {
 		// Sould never be reached in normal usage: it the size is not the same, the password shoudln't be the same.
 		// It can be reached if a password contain a special caracter coded on multiple char in the string though.
-		if (DEBUG){cout << "Size failure : " << timeIntervals.size() << "; " << times.size() << endl;}
-		if (DEBUG >= 2) {
-			for (int i = 0; i < min(timeIntervals.size(), times.size()) ; i++){
-				cout << timeIntervals[i] << "; " << times[i] << endl;
-			}
-		}
+		if (VERBOSITY >= 3){cout << "Size failure" << endl;}
+		if (VERBOSITY >= 5){cout << "Size of timing input" << timeIntervals.size() << endl;}
+		if (VERBOSITY >= 7){cout << "Size of timing reference" << times.size() << endl;}
 		return false;
 	}
 	
 	// Check presence and length of deviation vector 
 	if (timesDeviations.size() != timeIntervals.size()) {
-		if (DEBUG && timesDeviations.empty()){cout << "Warning : legacy time checking method used." << (useTimesDeviations?" Anomalous usage. User should re registrate his password":"") << endl;}
+		if ((VERBOSITY >= 2) && timesDeviations.empty()){cout << "Warning : legacy time checking method used." << (useTimesDeviations?" Anomalous usage. User should re registrate his password":"") << endl;}
 		useTimesDeviations = false;
 	}
 	
@@ -128,8 +122,8 @@ bool Password::checkPasswordAttempt(string passwordAttempt, vector<long long int
 			timingFailure = times[i]>3*timeInterval || timeInterval>3*times[i];
 		}
 		if (timingFailure) {
-			if (DEBUG){cout << "Timing failure" << endl;}
-			if (DEBUG >= 2){
+			if (VERBOSITY >= 3){cout << "Timing failure" << endl;}
+			if (VERBOSITY >= 8){
 				for (int j = 0; j < min(timeIntervals.size(), times.size()) ; j++){
 					cout << "Mesure: " << timeIntervals[j] << "; Reference: " << times[j] << "; " << (useTimesDeviations? (timeInterval - times[i]) : (timeIntervals[j]/(times[j]+1)) ) << endl;
 				}
