@@ -12,6 +12,7 @@
 #include "keyWrapper.h"
 #include "password.h"
 #include "debug.h"
+#include "language.h"
 
 using namespace std;
 
@@ -49,18 +50,18 @@ void registerPasswordTimes(const string passwordFilePath) {
     ifile.open(passwordFilePath);
     if (ifile) {
         ifile.close(); // end if c++<17
-        cout << "L'utilisateur existe deja" << endl;
-        cout << "Voulez vous re-enregistrer le mot de passe ? (o/N)" << endl;
+        cout << language.userExist << endl;
+        cout << language.registerAgainChoice << endl;
         string changePasswordInput;
         cin >> changePasswordInput;
-        if (changePasswordInput != "o" && changePasswordInput != "O") {
+        if (!(*find(language.yes.begin(), language.yes.end(), changePasswordInput) == changePasswordInput)) { // Need to be checked before making it in the code
             return;
         }
         else {
             bool accessGranted = testPasswordTimes(passwordFilePath); // TODO : excape folder navigation capability
             if (!accessGranted) {
-                cout << "Echec de l'authentification" << endl;
-                cout << "L'enregistrement a echoue" << endl;
+                cout << language.authentificationFailure << endl;
+                cout << language.registrationFailure << endl;
                 return;
             }
         }
@@ -75,9 +76,9 @@ void registerPasswordTimes(const string passwordFilePath) {
 
     // Does the user want to be remembered his password ?
     string secretPassword;
-    cout << "Voulez vous que votre mot de passe soit secret (o/N) ?" << endl;
+    cout << language.secretPasswordChoice << endl;
     cin >> secretPassword;
-    if (secretPassword == "o" || secretPassword == "O") {
+    if (*find(language.yes.begin(), language.yes.end(), secretPassword) == secretPassword) { // Need to be checked before making it in the code
         secretPassword = "0";
     }
     else {
@@ -99,7 +100,7 @@ void registerPasswordTimes(const string passwordFilePath) {
 
     // Reading the password to use
     string ps;
-    cout << "Merci de rentrer le mot de passe" << endl;
+    cout << language.enterNewPassword << endl;
     while (encore) {
         c = _getch();
         string key = keyWrapper(c, encore);
@@ -118,7 +119,7 @@ void registerPasswordTimes(const string passwordFilePath) {
         string passwordAttemptMeasure;
         vector<chrono::time_point<chrono::high_resolution_clock>> timesMeasure; // To get the user data
         encore = true;
-        cout << "Entrez une nouvelle fois votre mot de passe" << endl;;
+        cout << language.enterNewPasswordAgain << endl;;
 
         // Getting the times at each key pressed
         while (encore) {
@@ -144,7 +145,7 @@ void registerPasswordTimes(const string passwordFilePath) {
             j += 1;
         }
         else {
-            cout << "Le mot de passe rentre est errone, veuillez reessayer" << endl;
+            cout << language.wrongPasswordTryAgain << endl;
         }
 
     }
@@ -188,7 +189,7 @@ void registerPasswordTimes(const string passwordFilePath) {
 		remove(tmpPasswordFilePath.c_str());
 		//ENDIF c++<17
 
-        cout << "Enregistrement effectue avec succes" << endl;
+        cout << language.registrationSuccess << endl;
     }
 }
 
@@ -207,7 +208,8 @@ bool testPasswordTimes(const string passwordFilePath) {
     Password passwordControler(passwordFilePath);
 
 
-    cout << "Veuillez entrer le mot de passe pour l'authentification :" << endl;
+    //cout << "Veuillez entrer le mot de passe pour l'authentification :" << endl;
+    cout << language.enterPassword << endl;
     passwordControler.printPassword();
 
     // The password and times capture
@@ -248,27 +250,26 @@ int main(int argc, char* argv[])
     // Both fail if the passwordFolderPath use a path with a missing parent directory
 
 
-    cout << "Welcome in our 'Frappologie' authentification" << endl;
-    cout << "Developed by Noe de Montard & Clement Naudet" << endl;
-    cout << "Would you like to register a new user (r) or to authentificate (A) ?" << endl;
-    string choice;
+    cout << language.welcome << endl;
+    cout << language.developpers << endl;
+    cout << language.registrationOrAuthentification << endl;    string choice;
     cin >> choice;
     if (choice == "r" || choice == "R") {
         string user;
-        cout << "Enter user name" << endl;
+        cout << language.usernameInput << endl;
         cin >> user; // TODO : sanitise username to excape folder navigation capability
         // THE PASSWORD FILE INITIALISATION METHOD
         registerPasswordTimes(passwordFolderPath + "/" + user + "." + passwordFileName); 
     }
     else {
         string user;
-        cout << "Enter user name" << endl;
+        cout << language.usernameInput << endl;
         cin >> user;
         // THE PASSWORD CHECKING METHOD
         accessGranted = testPasswordTimes(passwordFolderPath + "/" + user + "." + passwordFileName);
 
         if (VERBOSITY>=1){
-            cout << (accessGranted ? "Success" : "Failure") << endl;
+            cout << (accessGranted ? language.success : language.failure) << endl;
         }
     }
 

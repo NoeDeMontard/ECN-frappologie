@@ -31,6 +31,8 @@
 *.out
 *.app
 
+.vscode
+
 initializeTimeIntervals.h
 
 *.ignore
