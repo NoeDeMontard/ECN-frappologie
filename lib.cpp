@@ -1,21 +1,19 @@
 #include <conio.h>
 #include <math.h>
-#include <windows.h> // Used by CreateDirectory
-#include <cstdio>    // Used by remove in c++<17
+#include <vector>
+#include <string>
 #include <iostream>
 #include <fstream>
 #include <chrono>
-#include <vector>
-#include <string>
-#include <filesystem>
-#include "keyWrapper.h"
-#include "password.h"
+#include <algorithm>
+
+#include "lib.h"
 #include "settings.h"
+#include "password.h"
 #include "language.h"
+#include "keyWrapper.h"
 
 using namespace std;
-
-// TODO : if the user want a secret password, don't show the key pressed
 
 void moyenneEcartType(vector<vector<long long int>> data, vector<long long int>& moyennes, vector<long long int>& ecartsType) {
     int nbrEssais = data.size();
@@ -40,8 +38,7 @@ void moyenneEcartType(vector<vector<long long int>> data, vector<long long int>&
     }
 }
 
-bool testPasswordTimes(const string passwordFilePath); // TODO : réorganiser pour éviter d'avoir besoin de cette ligne
-
+// TODO : if the user want a secret password, don't show the key pressed
 void registerPasswordTimes(const string passwordFilePath) {
     // Check if user exist, if he does, ask for if the user whant to overwrite the old password take (with a password verification in case of overwriting)
     //if (filesystem::exists(passwordFilePath)) {// If c++17
@@ -192,6 +189,7 @@ void registerPasswordTimes(const string passwordFilePath) {
     }
 }
 
+// TODO : if the user want a secret password, don't show the key pressed
 bool testPasswordTimes(const string passwordFilePath) {
     // Var used for input
     int c; // the current character code
@@ -232,46 +230,4 @@ bool testPasswordTimes(const string passwordFilePath) {
     }
     bool accessGranted = passwordControler.checkPasswordAttempt(passwordAttempt, timeIntervals);
     return accessGranted;
-}
-
-
-
-int main(int argc, char* argv[])
-{
-    const string passwordFileName = "passwordFile";
-    const string passwordFolderPath = "passwords";
-    bool accessGranted = true;
-
-
-    // Create the passwordFolder if it doesn't exists
-    CreateDirectory(passwordFolderPath.c_str(), NULL);
-    //filesystem::create_directory(passwordFolderPath);// If c++17, more portable
-    // Both fail if the passwordFolderPath use a path with a missing parent directory
-
-
-    cout << language.welcome << endl;
-    cout << language.developpers << endl;
-    cout << language.registrationOrAuthentification << endl;    string choice;
-    cin >> choice;
-    if (choice == "r" || choice == "R") {
-        string user;
-        cout << language.usernameInput << endl;
-        cin >> user; // TODO : sanitise username to excape folder navigation capability
-        // THE PASSWORD FILE INITIALISATION METHOD
-        registerPasswordTimes(passwordFolderPath + "/" + user + "." + passwordFileName); 
-    }
-    else {
-        string user;
-        cout << language.usernameInput << endl;
-        cin >> user;
-        // THE PASSWORD CHECKING METHOD
-        accessGranted = testPasswordTimes(passwordFolderPath + "/" + user + "." + passwordFileName);
-
-        if (VERBOSITY>=1){
-            cout << (accessGranted ? language.success : language.failure) << endl;
-        }
-    }
-
-
-    return (accessGranted?0:3);
 }
