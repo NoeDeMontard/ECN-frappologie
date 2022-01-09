@@ -38,12 +38,12 @@ endif
 app.exe: $(buildFolder)/main.o $(buildFolder)/keyWrapper.o $(buildFolder)/password.o
 	$(compiler) $(buildFolder)/main.o $(buildFolder)/keyWrapper.o $(buildFolder)/password.o -o app.exe $(FLAGS)
 
-$(buildFolder)/main.o:  main.cpp constantes.h keyWrapper.h password.h debug.h language.h
+$(buildFolder)/main.o:  main.cpp keyWrapper.h password.h settings.h language.h
 	$(compiler) -c main.cpp $(FLAGS) -o $(buildFolder)/main.o
 
-$(buildFolder)/keyWrapper.o: keyWrapper.cpp keyWrapper.h constantes.h debug.h
+$(buildFolder)/keyWrapper.o: keyWrapper.cpp keyWrapper.h keyConst.h settings.h
 	$(compiler) -c keyWrapper.cpp $(FLAGS) -o $(buildFolder)/keyWrapper.o
 
-$(buildFolder)/password.o: password.cpp password.h debug.h
+$(buildFolder)/password.o: password.cpp password.h settings.h
 	$(compiler) -c password.cpp $(FLAGS) -o $(buildFolder)/password.o
 

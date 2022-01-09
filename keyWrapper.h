@@ -1,5 +1,5 @@
 #pragma once
 #include <string>
-#include "constantes.h"
+#include "keyConst.h"
 
 std::string keyWrapper(int c, bool &encore);

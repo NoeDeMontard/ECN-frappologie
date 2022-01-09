@@ -8,10 +8,9 @@
 #include <vector>
 #include <string>
 #include <filesystem>
-#include "constantes.h"
 #include "keyWrapper.h"
 #include "password.h"
-#include "debug.h"
+#include "settings.h"
 #include "language.h"
 
 using namespace std;

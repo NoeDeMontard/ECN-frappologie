@@ -1,7 +1,7 @@
 #include <conio.h>
 #include <iostream>
 #include <string>
-#include "constantes.h"
+#include "keyConst.h"
 using namespace std;
 
 string keyWrapper(int c, bool &encore) {

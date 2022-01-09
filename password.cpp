@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include "password.h"
-#include "debug.h"
+#include "settings.h"
 
 using namespace std;
 
