@@ -27,8 +27,8 @@ struct Language
 	const vector<string> yes;
 	const vector<string> no;
 };
-Language french = {
-	.welcome		= "Bienvenu dans notre authenitification par frappologie",
+const Language french = {
+	.welcome		= "Bienvenue dans notre authenitification par frappologie",
 	.developpers 	= "Developpe par Noe de Montard & Clement Naudet",
 	.registrationOrAuthentification = "Souhaitez vous enregistrer un nouvel utilisateur (r) ou vous authentifier (A) ?",
 	.usernameInput	= "Entrer votre nom d'utilisateur :",
@@ -47,7 +47,7 @@ Language french = {
 	.yes	= {"o", "O", "oui", "Oui", "OUi"," OUI", "oUI", "ouI", "oUi", "OuI"},
 	.no		= {"n", "N", "non", "Non", "NON"} // could be more or less exaustive
 };
-Language english = {
+const Language english = {
 	.welcome		= "Welcome in our 'Frappologie' authentification",
 	.developpers	= "Developed by Noe de Montard & Clement Naudet",
 	.registrationOrAuthentification = "Would you like to register a new user (r) or to authentificate (A) ?",
@@ -68,7 +68,7 @@ Language english = {
 	.no		= {"n","N","No","NO","nO"}
 };
 
-Language language = french; // TODO : Better language switching
+const Language language = french; // TODO : Better language switching
 
 /*
 welcome = "Welcome in our 'Frappologie' authentification";

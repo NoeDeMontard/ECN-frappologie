@@ -1,19 +1,16 @@
-#include <conio.h>
-#include <math.h>
 #include <windows.h> // Used by CreateDirectory
+#include <math.h>
 #include <cstdio>    // Used by remove in c++<17
-#include <iostream>
-#include <fstream>
-#include <chrono>
-#include <vector>
-#include <string>
 #include <filesystem>
-#include "keyWrapper.h"
-#include "password.h"
+#include <iostream>
+#include <string>
+
 #include "settings.h"
 #include "language.h"
+#include "lib.h"
 
 using namespace std;
+// void CreateDirectory(const char*, int*);
 
 int main(int argc, char* argv[])
 {
