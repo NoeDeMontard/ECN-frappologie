@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 #include "settings.h"
 #include "language.h"
@@ -29,7 +30,7 @@ int main(int argc, char* argv[])
     cout << language.developpers << endl;
     cout << language.registrationOrAuthentification << endl;    string choice;
     cin >> choice;
-    if (choice == "r" || choice == "R") {
+    if (*find(language.registration.begin(), language.registration.end(), choice) == choice) {
         string user;
         cout << language.usernameInput << endl;
         cin >> user; // TODO : sanitise username to excape folder navigation capability

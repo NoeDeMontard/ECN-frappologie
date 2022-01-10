@@ -50,7 +50,7 @@ void registerPasswordTimes(const string passwordFilePath) {
         cout << language.registerAgainChoice << endl;
         string changePasswordInput;
         cin >> changePasswordInput;
-        if (!(*find(language.yes.begin(), language.yes.end(), changePasswordInput) == changePasswordInput)) { // Need to be checked before making it in the code
+        if (!(*find(language.yes.begin(), language.yes.end(), changePasswordInput) == changePasswordInput)) {
             return;
         }
         else {
@@ -74,7 +74,7 @@ void registerPasswordTimes(const string passwordFilePath) {
     string secretPassword;
     cout << language.secretPasswordChoice << endl;
     cin >> secretPassword;
-    if (*find(language.yes.begin(), language.yes.end(), secretPassword) == secretPassword) { // Need to be checked before making it in the code
+    if (*find(language.yes.begin(), language.yes.end(), secretPassword) == secretPassword) {
         secretPassword = "0";
     }
     else {
@@ -109,7 +109,6 @@ void registerPasswordTimes(const string passwordFilePath) {
     passwordFileTmp << "[Password]" << endl;
     passwordFileTmp << ps << endl;
 
-    //TODO : afficher 1 seul fois le mot de passe à taper
     int j = 0;
     while (j < nbrDataPoints) {
         string passwordAttemptMeasure;

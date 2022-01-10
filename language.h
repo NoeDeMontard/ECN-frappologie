@@ -9,8 +9,6 @@ struct Language
 	const string welcome;
 	const string developpers;
 	const string registrationOrAuthentification;
-	const vector<string> registration;		// TODO
-	const vector<string> authentification;	// TODO
 	const string usernameInput;
 	const string success;
 	const string failure;
@@ -26,6 +24,9 @@ struct Language
 	const string wrongPasswordTryAgain;
 	const vector<string> yes;
 	const vector<string> no;
+	const vector<string> registration;
+	const vector<string> authentification;
+	// TODO : VERBOSITY > 1 strings
 };
 const Language french = {
 	.welcome		= "Bienvenue dans notre authenitification par frappologie",
@@ -44,8 +45,11 @@ const Language french = {
 	.enterNewPassword			= "Entrer votre nouveau mot de passe",
 	.enterNewPasswordAgain		= "Entrer votre nouveau mot de passe une nouvelle fois",
 	.wrongPasswordTryAgain		= "Le mot de passe rentre est errone, veuillez reessayer",
+	// these vectors could be more or less exaustive
 	.yes	= {"o", "O", "oui", "Oui", "OUi"," OUI", "oUI", "ouI", "oUi", "OuI"},
-	.no		= {"n", "N", "non", "Non", "NON"} // could be more or less exaustive
+	.no		= {"n", "N", "non", "Non", "NON"},
+	.registration				= {"r", "R", "e", "E", "enregistrer", "Enregistrer", "ENREGISTRER"},
+	.authentification			= {"a", "A", "authentifier", "Authentifier", "AUTHENTIFIER"}
 };
 const Language english = {
 	.welcome		= "Welcome in our 'Frappologie' authentification",
@@ -65,17 +69,9 @@ const Language english = {
 	.enterNewPasswordAgain		= "Enter your new password again",
 	.wrongPasswordTryAgain		= "The password is wrong, try again",
 	.yes	= {"y", "Y", "yes", "Yes", "YES"},
-	.no		= {"n","N","No","NO","nO"}
+	.no		= {"n","N","No","NO","nO"},
+	.registration				= {"r", "R", "register", "Register", "REGISTER"},
+	.authentification			= {"a", "A", "authentificate", "Authentificate", "AUTHENTIFICATE"}
 };
 
 const Language language = french; // TODO : Better language switching
-
-/*
-welcome = "Welcome in our 'Frappologie' authentification";
-developpers = "Developed by Noe de Montard & Clement Naudet";
-registrationOrAuthentification = "Would you like to register a new user (r) or to authentificate (A) ?";
-usernameInput = "Enter user name";
-success = "Success";
-failure = "Failure";
-
-*/
