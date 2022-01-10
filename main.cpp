@@ -18,6 +18,7 @@ int main(int argc, char* argv[])
     const string passwordFileName = "passwordFile";
     const string passwordFolderPath = "passwords";
     bool accessGranted = true;
+    const Language * language = &french;
 
 
     // Create the passwordFolder if it doesn't exists
@@ -26,12 +27,12 @@ int main(int argc, char* argv[])
     // Both fail if the passwordFolderPath use a path with a missing parent directory
 
 
-    cout << language.welcome << endl;
-    cout << language.developpers << endl;
-    cout << language.registrationOrAuthentification << endl;    string choice;
+    cout << language->welcome << endl;
+    cout << language->developpers << endl;
+    cout << language->registrationOrAuthentification << endl;    string choice;
     cin >> choice;
     string user;
-    cout << language.usernameInput << endl;
+    cout << language->usernameInput << endl;
     cin >> user;
     std::size_t found = user.find_first_of("/\\");
     while (found!=string::npos)
@@ -39,16 +40,16 @@ int main(int argc, char* argv[])
         user[found]='_';
         found=user.find_first_of("/\\",found+1);
     }
-    if (*find(language.registration.begin(), language.registration.end(), choice) == choice) {
+    if (*find(language->registration.begin(), language->registration.end(), choice) == choice) {
         // THE PASSWORD FILE INITIALISATION METHOD
-        registerPasswordTimes(passwordFolderPath + "/" + user + "." + passwordFileName); 
+        registerPasswordTimes(passwordFolderPath + "/" + user + "." + passwordFileName, language); 
     }
     else {
         // THE PASSWORD CHECKING METHOD
-        accessGranted = testPasswordTimes(passwordFolderPath + "/" + user + "." + passwordFileName);
+        accessGranted = testPasswordTimes(passwordFolderPath + "/" + user + "." + passwordFileName, language);
 
         if (VERBOSITY>=1){
-            cout << (accessGranted ? language.success : language.failure) << endl;
+            cout << (accessGranted ? language->success : language->failure) << endl;
         }
     }
 

@@ -73,5 +73,3 @@ const Language english = {
 	.registration				= {"r", "R", "register", "Register", "REGISTER"},
 	.authentification			= {"a", "A", "authentificate", "Authentificate", "AUTHENTIFICATE"}
 };
-
-const Language language = french; // TODO : Better language switching

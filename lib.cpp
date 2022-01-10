@@ -39,25 +39,25 @@ void moyenneEcartType(vector<vector<long long int>> data, vector<long long int>&
 }
 
 // TODO : if the user want a secret password, don't show the key pressed
-void registerPasswordTimes(const string passwordFilePath) {
+void registerPasswordTimes(const string passwordFilePath, const Language * language) {
     // Check if user exist, if he does, ask for if the user whant to overwrite the old password take (with a password verification in case of overwriting)
     //if (filesystem::exists(passwordFilePath)) {// If c++17
     ifstream ifile; // if c++<17
     ifile.open(passwordFilePath);
     if (ifile) {
         ifile.close(); // end if c++<17
-        cout << language.userExist << endl;
-        cout << language.registerAgainChoice << endl;
+        cout << language->userExist << endl;
+        cout << language->registerAgainChoice << endl;
         string changePasswordInput;
         cin >> changePasswordInput;
-        if (!(*find(language.yes.begin(), language.yes.end(), changePasswordInput) == changePasswordInput)) {
+        if (!(*find(language->yes.begin(), language->yes.end(), changePasswordInput) == changePasswordInput)) {
             return;
         }
         else {
-            bool accessGranted = testPasswordTimes(passwordFilePath);
+            bool accessGranted = testPasswordTimes(passwordFilePath, language);
             if (!accessGranted) {
-                cout << language.authentificationFailure << endl;
-                cout << language.registrationFailure << endl;
+                cout << language->authentificationFailure << endl;
+                cout << language->registrationFailure << endl;
                 return;
             }
         }
@@ -72,9 +72,9 @@ void registerPasswordTimes(const string passwordFilePath) {
 
     // Does the user want to be remembered his password ?
     string secretPassword;
-    cout << language.secretPasswordChoice << endl;
+    cout << language->secretPasswordChoice << endl;
     cin >> secretPassword;
-    if (*find(language.yes.begin(), language.yes.end(), secretPassword) == secretPassword) {
+    if (*find(language->yes.begin(), language->yes.end(), secretPassword) == secretPassword) {
         secretPassword = "0";
     }
     else {
@@ -96,7 +96,7 @@ void registerPasswordTimes(const string passwordFilePath) {
 
     // Reading the password to use
     string ps;
-    cout << language.enterNewPassword << endl;
+    cout << language->enterNewPassword << endl;
     while (encore) {
         c = _getch();
         string key = keyWrapper(c, encore);
@@ -114,7 +114,7 @@ void registerPasswordTimes(const string passwordFilePath) {
         string passwordAttemptMeasure;
         vector<chrono::time_point<chrono::high_resolution_clock>> timesMeasure; // To get the user data
         encore = true;
-        cout << language.enterNewPasswordAgain << endl;;
+        cout << language->enterNewPasswordAgain << endl;;
 
         // Getting the times at each key pressed
         while (encore) {
@@ -140,7 +140,7 @@ void registerPasswordTimes(const string passwordFilePath) {
             j += 1;
         }
         else {
-            cout << language.wrongPasswordTryAgain << endl;
+            cout << language->wrongPasswordTryAgain << endl;
         }
 
     }
@@ -184,11 +184,11 @@ void registerPasswordTimes(const string passwordFilePath) {
 		remove(tmpPasswordFilePath.c_str());
 		//ENDIF c++<17
 
-        cout << language.registrationSuccess << endl;
+        cout << language->registrationSuccess << endl;
     }
 }
 
-bool testPasswordTimes(const string passwordFilePath) {
+bool testPasswordTimes(const string passwordFilePath, const Language * language) {
     // Var used for input
     int c; // the current character code
     bool encore = true; // get a new character
@@ -205,7 +205,7 @@ bool testPasswordTimes(const string passwordFilePath) {
     bool showPassword = passwordControler.shouldDisplay();
 
     //cout << "Veuillez entrer le mot de passe pour l'authentification :" << endl;
-    cout << language.enterPassword << endl;
+    cout << language->enterPassword << endl;
     passwordControler.printPassword();
 
     // The password and times capture
