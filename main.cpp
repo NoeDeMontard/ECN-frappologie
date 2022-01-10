@@ -33,11 +33,11 @@ int main(int argc, char* argv[])
     string user;
     cout << language.usernameInput << endl;
     cin >> user;
-    std::size_t found = user.find_fisrt_of("/\\");
+    std::size_t found = user.find_first_of("/\\");
     while (found!=string::npos)
     {
         user[found]='_';
-        found=str.find_first_of("/\\",found+1);
+        found=user.find_first_of("/\\",found+1);
     }
     if (*find(language.registration.begin(), language.registration.end(), choice) == choice) {
         // THE PASSWORD FILE INITIALISATION METHOD
