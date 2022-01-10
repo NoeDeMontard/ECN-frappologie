@@ -27,15 +27,19 @@ Nous avons plus précisément :
 
 ## Limites
 
-Le modèle de sécurité de notre logiciel est à compléter. En effet les données sont actuellement enregistrées en clair.
+- [ ] Le modèle de sécurité de notre logiciel est à compléter. En effet les données sont actuellement enregistrées en clair.
 
-Une métrique plus adaptée existe peut-être.
+- [ ] Une métrique plus adaptée existe peut-être.
 
-La possibilité d'avoir plusieurs références pour un utilisateur pourrait être intéressante. En effet, il peut arriver qu'un même utilisateur ait plusieurs manières de frapper, pouvant dépendre notamment du clavier mais aussi des autres conditions de frappe.
+- [ ] La possibilité d'avoir plusieurs références pour un utilisateur pourrait être intéressante. En effet, il peut arriver qu'un même utilisateur ait plusieurs manières de frapper, pouvant dépendre notamment du clavier mais aussi des autres conditions de frappe.
 
-La dynamique de frappe étant une donnée biométrique comportementale, elle est sujette au vieillissement. Il faudrait alors prendre en compte ce vieillissement de la donnée pour faire évoluer la référence.
+- [ ] La dynamique de frappe étant une donnée biométrique comportementale, elle est sujette au vieillissement. Il faudrait alors prendre en compte ce vieillissement de la donnée pour faire évoluer la référence.
 
-La gestion des langues n'est pas optimale, avec actuellement des chaînes de caractères directement intégrées au code. De plus certaines sont en français et d'autres sont en anglais. Il faudrait donc faire évoluer la gestion du langage.
+- [ ] (WIP) La gestion des langues. La gestion du language utilise désormais une struct, mais certaines chaines de caractère restent à intégrer et sont encore intégrées au code en une seule langue. Les principales utilisent néanmoins la nouvelle méthode.
+
+- [ ] Le makefile est adapté pour une compilation croisée depuis linux, la version pour Windows reste à faire.
+
+- [ ] Lors de l'enregistrement d'un mot de passe secret, celui-ci reste affiché.
 
 # Qu'est-ce que la frappologie ?
 La frappologie, ou Dynamique De Frappe au clavier (DDF), est une modalité biométrique comportementale permettant l'identification et l'authentification d'un utilisateur. Elle fonctionne en analysant la manière dont l'utilisateur frappe un texte, libre ou statique, à l'aide de son clavier. 
