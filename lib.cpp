@@ -188,7 +188,6 @@ void registerPasswordTimes(const string passwordFilePath) {
     }
 }
 
-// TODO : if the user want a secret password, don't show the key pressed
 bool testPasswordTimes(const string passwordFilePath) {
     // Var used for input
     int c; // the current character code
@@ -203,6 +202,7 @@ bool testPasswordTimes(const string passwordFilePath) {
 
     Password passwordControler(passwordFilePath);
 
+    bool showPassword = passwordControler.shouldDisplay();
 
     //cout << "Veuillez entrer le mot de passe pour l'authentification :" << endl;
     cout << language.enterPassword << endl;
@@ -214,7 +214,11 @@ bool testPasswordTimes(const string passwordFilePath) {
         times.push_back(chrono::high_resolution_clock::now());
         string key = keyWrapper(c, encore);
         passwordAttempt += key;
-        cout << key;
+        if (showPassword || key == ""){
+            cout << key;
+        } else {
+            cout << "*";
+        }
     }
     cout << endl;
 

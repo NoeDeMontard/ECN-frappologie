@@ -17,4 +17,5 @@ public:
 	Password(string _password, vector<long long int> _times);
 	bool checkPasswordAttempt(string passwordAttempt, vector<long long int> timeIntervals);
 	void printPassword();
+	bool shouldDisplay();
 };

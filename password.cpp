@@ -130,3 +130,7 @@ void Password::printPassword(){
 		cout << password << endl;
 	}
 }
+
+bool Password::shouldDisplay(){
+	return showPassword;
+}
