@@ -54,7 +54,7 @@ void registerPasswordTimes(const string passwordFilePath) {
             return;
         }
         else {
-            bool accessGranted = testPasswordTimes(passwordFilePath); // TODO : excape folder navigation capability
+            bool accessGranted = testPasswordTimes(passwordFilePath);
             if (!accessGranted) {
                 cout << language.authentificationFailure << endl;
                 cout << language.registrationFailure << endl;

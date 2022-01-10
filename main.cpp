@@ -30,17 +30,20 @@ int main(int argc, char* argv[])
     cout << language.developpers << endl;
     cout << language.registrationOrAuthentification << endl;    string choice;
     cin >> choice;
+    string user;
+    cout << language.usernameInput << endl;
+    cin >> user;
+    std::size_t found = user.find_fisrt_of("/\\");
+    while (found!=string::npos)
+    {
+        user[found]='_';
+        found=str.find_first_of("/\\",found+1);
+    }
     if (*find(language.registration.begin(), language.registration.end(), choice) == choice) {
-        string user;
-        cout << language.usernameInput << endl;
-        cin >> user; // TODO : sanitise username to excape folder navigation capability
         // THE PASSWORD FILE INITIALISATION METHOD
         registerPasswordTimes(passwordFolderPath + "/" + user + "." + passwordFileName); 
     }
     else {
-        string user;
-        cout << language.usernameInput << endl;
-        cin >> user;
         // THE PASSWORD CHECKING METHOD
         accessGranted = testPasswordTimes(passwordFolderPath + "/" + user + "." + passwordFileName);
 
