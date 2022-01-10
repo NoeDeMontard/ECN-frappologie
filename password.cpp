@@ -68,15 +68,6 @@ Password::Password(const string filename){
 	passwordFile.close();
 }
 
-// TODO : Should this method still be avaliable?
-Password::Password(const string _password, vector<long long int> _times){
-	 password = _password;
-	 times = _times;
-	 timesDeviations;
-	 showPassword = false;
-	 userExists = true;
-}
-
 bool Password::checkPasswordAttempt(string passwordAttempt, vector<long long int> timeIntervals){
 	bool useTimesDeviations = true; // Enable / disable the better timing check
 	
