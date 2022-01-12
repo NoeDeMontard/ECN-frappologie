@@ -19,6 +19,14 @@ int main(int argc, char* argv[])
     const string passwordFolderPath = "passwords";
     bool accessGranted = true;
     const Language * language = &french;
+    if (argc == 2){
+        cout << argv[0] << " " << argv[1] << endl;
+        if (_stricmp( argv[1], "fr" ) == 0){
+            language = &french;
+        } else if (_stricmp( argv[1], "en" ) == 0){
+            language = &english;
+        }
+    }
 
 
     // Create the passwordFolder if it doesn't exists
