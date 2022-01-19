@@ -20,7 +20,17 @@ const Language french = {
 	.yes	= {"o", "O", "oui", "Oui", "OUi"," OUI", "oUI", "ouI", "oUi", "OuI"},
 	.no		= {"n", "N", "non", "Non", "NON"},
 	.registration				= {"r", "R", "e", "E", "enregistrer", "Enregistrer", "ENREGISTRER"},
-	.authentification			= {"a", "A", "authentifier", "Authentifier", "AUTHENTIFIER"}
+	.authentification			= {"a", "A", "authentifier", "Authentifier", "AUTHENTIFIER"},
+	
+	.password = "Mot de Passe",
+	.testedPassword = "Mot de passe entre",
+	.user = "Utilisateur",
+	.invalid = "invalide",
+	.size = "Taille",
+	.timing = "Timing",
+	.legacyWarning = "Warning : methode legacy utilisee",
+	.registerAgain = "L'utilisateur devrait s'enregistrer de nouveau"
+	
 };
 const Language english = {
 	.welcome		= "Welcome in our 'Frappologie' authentification",
@@ -42,6 +52,15 @@ const Language english = {
 	.yes	= {"y", "Y", "yes", "Yes", "YES"},
 	.no		= {"n","N","No","NO","nO"},
 	.registration				= {"r", "R", "register", "Register", "REGISTER"},
-	.authentification			= {"a", "A", "authentificate", "Authentificate", "AUTHENTIFICATE"}
+	.authentification			= {"a", "A", "authentificate", "Authentificate", "AUTHENTIFICATE"},
+
+	.password = "Password",
+	.testedPassword = "Tested password",
+	.user = "User",
+	.invalid = "invalid",
+	.size = "Size",
+	.timing = "Timing",
+	.legacyWarning = "Warning : legacy method used",
+	.registerAgain = "The user should register again"
 };
 const Language * language = &french;

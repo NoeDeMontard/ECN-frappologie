@@ -26,7 +26,17 @@ struct Language
 	const vector<string> no;
 	const vector<string> registration;
 	const vector<string> authentification;
-	// TODO : VERBOSITY > 1 strings
+	
+	const string password;
+	const string testedPassword;
+	const string user;
+	const string invalid;
+	const string size;
+	const string timing;
+	const string legacyWarning;
+	const string registerAgain;
+
+	// TODO : VERBOSITY > 3 strings
 };
 
 extern const Language french;
