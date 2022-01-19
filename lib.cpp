@@ -39,7 +39,7 @@ void moyenneEcartType(vector<vector<long long int>> data, vector<long long int>&
 }
 
 // TODO : if the user want a secret password, don't show the key pressed
-void registerPasswordTimes(const string passwordFilePath, const Language * language) {
+void registerPasswordTimes(const string passwordFilePath){
     // Check if user exist, if he does, ask for if the user whant to overwrite the old password take (with a password verification in case of overwriting)
     //if (filesystem::exists(passwordFilePath)) {// If c++17
     ifstream ifile; // if c++<17
@@ -54,7 +54,7 @@ void registerPasswordTimes(const string passwordFilePath, const Language * langu
             return;
         }
         else {
-            bool accessGranted = testPasswordTimes(passwordFilePath, language);
+            bool accessGranted = testPasswordTimes(passwordFilePath);
             if (!accessGranted) {
                 cout << language->authentificationFailure << endl;
                 cout << language->registrationFailure << endl;
@@ -188,7 +188,7 @@ void registerPasswordTimes(const string passwordFilePath, const Language * langu
     }
 }
 
-bool testPasswordTimes(const string passwordFilePath, const Language * language) {
+bool testPasswordTimes(const string passwordFilePath){
     // Var used for input
     int c; // the current character code
     bool encore = true; // get a new character
@@ -204,7 +204,6 @@ bool testPasswordTimes(const string passwordFilePath, const Language * language)
 
     bool showPassword = passwordControler.shouldDisplay();
 
-    //cout << "Veuillez entrer le mot de passe pour l'authentification :" << endl;
     cout << language->enterPassword << endl;
     passwordControler.printPassword();
 

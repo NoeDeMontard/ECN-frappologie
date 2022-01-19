@@ -13,12 +13,13 @@
 using namespace std;
 // void CreateDirectory(const char*, int*);
 
+
 int main(int argc, char* argv[])
 {
     const string passwordFileName = "passwordFile";
     const string passwordFolderPath = "passwords";
     bool accessGranted = true;
-    const Language * language = &french;
+    // language defined in langiage.h and language.cpp
     if (argc == 2){
         cout << argv[0] << " " << argv[1] << endl;
         if (_stricmp( argv[1], "fr" ) == 0){
@@ -50,11 +51,11 @@ int main(int argc, char* argv[])
     }
     if (*find(language->registration.begin(), language->registration.end(), choice) == choice) {
         // THE PASSWORD FILE INITIALISATION METHOD
-        registerPasswordTimes(passwordFolderPath + "/" + user + "." + passwordFileName, language); 
+        registerPasswordTimes(passwordFolderPath + "/" + user + "." + passwordFileName);
     }
     else {
         // THE PASSWORD CHECKING METHOD
-        accessGranted = testPasswordTimes(passwordFolderPath + "/" + user + "." + passwordFileName, language);
+        accessGranted = testPasswordTimes(passwordFolderPath + "/" + user + "." + passwordFileName);
 
         if (VERBOSITY>=1){
             cout << (accessGranted ? language->success : language->failure) << endl;
