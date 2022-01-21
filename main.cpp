@@ -21,7 +21,38 @@ int main(int argc, char *argv[])
     const string passwordFileName = PASSWORDFILENAME;
     const string passwordFolderPath = PASSWORDFOLDERPATH;
     bool accessGranted = true;
-    // language defined in langiage.h and language.cpp
+    // language defined in language.h and language.cpp
+    if (argc > 1)
+    {
+        int state = 1; // default to --language
+        for (int i = 1; i < argc; i++)
+        {
+            if (_stricmp(argv[i], "--language") == 0)
+            {
+                state = 1;
+            }
+            else if (_stricmp(argv[i], "--verbosity") == 0)
+            {
+                state = 2;
+            }
+            else if (state == 1)
+            {
+                if (_stricmp(argv[1], "fr") == 0)
+                {
+                    language = &french;
+                }
+                else if (_stricmp(argv[1], "en") == 0)
+                {
+                    language = &english;
+                }
+            }
+            else if (state == 2)
+            {
+                // TODO : verbosity
+            }
+        }
+    }
+    /*
     if (argc == 2)
     {
         cout << argv[0] << " " << argv[1] << endl;
@@ -34,6 +65,7 @@ int main(int argc, char *argv[])
             language = &english;
         }
     }
+    */
 
     // Create the passwordFolder if it doesn't exists
     CreateDirectory(passwordFolderPath.c_str(), NULL);
