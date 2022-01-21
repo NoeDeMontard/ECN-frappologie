@@ -26,7 +26,7 @@ struct Language
 	const vector<string> no;
 	const vector<string> registration;
 	const vector<string> authentification;
-	
+
 	const string password;
 	const string testedPassword;
 	const string user;
@@ -41,4 +41,4 @@ struct Language
 
 extern const Language french;
 extern const Language english;
-extern const Language * language;
+extern const Language *language;

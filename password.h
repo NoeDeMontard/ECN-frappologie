@@ -4,13 +4,15 @@
 
 using namespace std;
 
-class Password{
+class Password
+{
 private:
 	bool userExists;
 	bool showPassword;
 	string password;
 	vector<long long int> times;
 	vector<long long int> timesDeviations;
+
 public:
 	Password();
 	Password(const string filename);

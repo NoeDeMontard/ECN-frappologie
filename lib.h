@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void moyenneEcartType(vector<vector<long long int>> data, vector<long long int>& moyennes, vector<long long int>& ecartsType);
+void moyenneEcartType(vector<vector<long long int>> data, vector<long long int> &moyennes, vector<long long int> &ecartsType);
 
 bool testPasswordTimes(const string passwordFilePath);
 

@@ -4,22 +4,29 @@
 #include "keyConst.h"
 using namespace std;
 
-string keyWrapper(int c, bool &encore) {
+string keyWrapper(int c, bool &encore)
+{
 
     //Special keys case
-    if (c == 0 || c == 224) { // Fisrt value returned by special keys
-        switch (_getch()) { // the real value they returned
+    if (c == 0 || c == 224)
+    { // Fisrt value returned by special keys
+        switch (_getch())
+        { // the real value they returned
         case 72:
-            cout << endl << "Up Arrow" << endl; // The value for up arrow is 72
+            cout << endl
+                 << "Up Arrow" << endl; // The value for up arrow is 72
             break;
         case 80:
-            cout << endl << "Down Arrow" << endl; // The value for down arrow is 80
+            cout << endl
+                 << "Down Arrow" << endl; // The value for down arrow is 80
             break;
         case 77:
-            cout << endl << "Right Arrow" << endl; // The value for right arrow is 77
+            cout << endl
+                 << "Right Arrow" << endl; // The value for right arrow is 77
             break;
         case 75:
-            cout << endl << "Left Arrow" << endl; // The value for left arrow is 75
+            cout << endl
+                 << "Left Arrow" << endl; // The value for left arrow is 75
             break;
         default:
             break;
@@ -27,7 +34,8 @@ string keyWrapper(int c, bool &encore) {
     }
 
     //General case
-    switch (c) {
+    switch (c)
+    {
     case KEY_1:
         return "1"; // 1
         break;
@@ -343,45 +351,49 @@ string keyWrapper(int c, bool &encore) {
         return "%"; // Pourcent
         break;
 
-
-
-
         //Ne fonctionne pas
     case MOUSE_LEFT:
-        cout << endl << "Mouse Left" << endl; // Mouse Left
+        cout << endl
+             << "Mouse Left" << endl; // Mouse Left
         break;
     case MOUSE_RIGHT:
-        cout << endl << "Mouse Right" << endl; // Mouse Right
+        cout << endl
+             << "Mouse Right" << endl; // Mouse Right
         break;
     case KEY_SHIFT:
-        cout << endl << "Shift" << endl; // Shift
+        cout << endl
+             << "Shift" << endl; // Shift
         break;
     case KEY_CTRL:
-        cout << endl << "Ctrl" << endl; // Ctrl
+        cout << endl
+             << "Ctrl" << endl; // Ctrl
         break;
     case KEY_ALT:
-        cout << endl << "Alt" << endl; // Alt
+        cout << endl
+             << "Alt" << endl; // Alt
         break;
     case KEY_CAPS_LOCK:
-        cout << endl << "Caps Lock" << endl; // Caps Lock
+        cout << endl
+             << "Caps Lock" << endl; // Caps Lock
         break;
     case KEY_NUM_LOCK:
-        cout << endl << "Num Lock" << endl; // Num Lock
+        cout << endl
+             << "Num Lock" << endl; // Num Lock
         break;
-
 
         //Quand on tape la touche en question ça renvoit une autre valeur
     case KEY_F7:
-        cout << endl << "F7" << endl; // Renvoit A
+        cout << endl
+             << "F7" << endl; // Renvoit A
         break;
     case KEY_F9:
-        cout << endl << "F9" << endl; // Renvoit C
+        cout << endl
+             << "F9" << endl; // Renvoit C
         break;
     case KEY_F10:
-        cout << endl << "F10" << endl; // Renvoit D
+        cout << endl
+             << "F10" << endl; // Renvoit D
         break;
-
-
 
     default:
         //cout << endl << "Code de la touche : " << c << endl; // Return the key code
