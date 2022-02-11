@@ -11,6 +11,7 @@
 #include <fstream>
 #include <chrono>
 #include <algorithm>
+#include <sstream>
 
 #include "lib.h"
 #include "settings.h"
@@ -94,10 +95,8 @@ void registerPasswordTimes(const string passwordFilePath)
 
     // User should be registered (again)
 
-    string tmpPasswordFilePath = "passwordFileTmp.ignore";
-
     // Openning the file to overwrite
-    fstream passwordFileTmp(tmpPasswordFilePath, ios::out);
+    stringstream passwordFileBuffer;
 
     // Does the user want to be remembered his password ?
     string secretPassword;
@@ -111,9 +110,9 @@ void registerPasswordTimes(const string passwordFilePath)
     {
         secretPassword = "1";
     }
-    passwordFileTmp << "[Show Password]" << endl;
-    passwordFileTmp << secretPassword << endl;
-    passwordFileTmp << endl;
+    passwordFileBuffer << "[Show Password]" << endl;
+    passwordFileBuffer << secretPassword << endl;
+    passwordFileBuffer << endl;
 
     // Various vars
     int c;                 // the current character code
@@ -136,8 +135,8 @@ void registerPasswordTimes(const string passwordFilePath)
     cout << endl;
 
     // Rewriting the password and the data in the file
-    passwordFileTmp << "[Password]" << endl;
-    passwordFileTmp << ps << endl;
+    passwordFileBuffer << "[Password]" << endl;
+    passwordFileBuffer << ps << endl;
 
     int j = 0;
     while (j < nbrDataPoints)
@@ -189,45 +188,36 @@ void registerPasswordTimes(const string passwordFilePath)
     moyenneEcartType(timeIntervalsMeasure, moyennes, ecartsType);
 
     // Writing the data in the file
-    if (passwordFileTmp)
+    if (passwordFileBuffer)
     {
-        passwordFileTmp << "[Time Intervals]" << endl;
+        passwordFileBuffer << "[Time Intervals]" << endl;
         for (int i = 0; i < moyennes.size(); i++)
         {
             if (VERBOSITY >= 6)
             {
                 cout << "moyennes[i] " << moyennes[i] << endl;
             }
-            passwordFileTmp << moyennes[i] << endl;
+            passwordFileBuffer << moyennes[i] << endl;
         }
-        passwordFileTmp << endl;
-        passwordFileTmp << "[Time Deviations]" << endl;
+        passwordFileBuffer << endl;
+        passwordFileBuffer << "[Time Deviations]" << endl;
         for (int i = 0; i < ecartsType.size(); i++)
         {
             if (VERBOSITY >= 6)
             {
                 cout << "ecartsType[i] " << ecartsType[i] << endl;
             }
-            passwordFileTmp << ecartsType[i] << endl;
+            passwordFileBuffer << ecartsType[i] << endl;
         }
 
-        passwordFileTmp.close();
-
         // Move the temporary file to the user file
-
-        // filesystem::copy_file(tmpPasswordFilePath, passwordFilePath, filesystem::copy_options::overwrite_existing); // c++17 // Issue :  Doesn't sems to take into account the overwrite part
-        // std::filesystem::remove(tmpPasswordFilePath); // C++17
-
         // IF c++<17
         // Copy
-        std::ifstream src(tmpPasswordFilePath, std::ios::binary);
-        std::ofstream dst(passwordFilePath, std::ios::binary);
-        dst << src.rdbuf();
-        src.close();
+        std::ofstream dst(passwordFilePath);
+        dst << passwordFileBuffer.rdbuf();
+        // src.close();
         dst.close();
 
-        // Remove tmp file
-        remove(tmpPasswordFilePath.c_str());
         // ENDIF c++<17
 
         cout << language->registrationSuccess << endl;
