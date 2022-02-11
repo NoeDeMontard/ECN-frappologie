@@ -1,11 +1,10 @@
 ///
-/// \file settings.h
-///	\brief Header de définition des paramètres
-///#pragma once
-#define MAX_VERBOSITY 6
-#define DEFAULT_LANGUAGE french
+/// \file settings.cpp
+///	\brief Source de définition des paramètres
+///
+#include "settings.h"
 
-extern int VERBOSITY;
+int VERBOSITY = 1;
 
 // 0 : no output ? Still the dialog inputs
 // 1 : Success, failure

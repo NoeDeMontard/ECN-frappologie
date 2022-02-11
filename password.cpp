@@ -103,7 +103,7 @@ bool Password::checkPasswordAttempt(string passwordAttempt, vector<long long int
 	// Check password
 	if (passwordAttempt != password)
 	{
-		//if (VERBOSITY >= 3){cout << "Password failure" << endl;}
+		// if (VERBOSITY >= 3){cout << "Password failure" << endl;}
 		if (VERBOSITY >= 3)
 		{
 			cout << language->failure << " " << language->password << " " << language->invalid << endl;
@@ -150,7 +150,7 @@ bool Password::checkPasswordAttempt(string passwordAttempt, vector<long long int
 		bool timingFailure;
 		if (useTimesDeviations)
 		{
-			timingFailure = timeInterval > times[i] + 1 * timesDeviations[i] || timeInterval < times[i] - 1 * timesDeviations[i]; //2*deviation for 95% of success with the gaussian distribution hypothesis
+			timingFailure = timeInterval > times[i] + 1 * timesDeviations[i] || timeInterval < times[i] - 1 * timesDeviations[i]; // 2*deviation for 95% of success with the gaussian distribution hypothesis
 		}
 		else
 		{

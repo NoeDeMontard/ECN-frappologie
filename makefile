@@ -35,8 +35,8 @@ $(info targetPlatform  $(targetPlatform))
 $(info compiler        $(compiler))
 endif
 
-app.exe: $(buildFolder)/main.o $(buildFolder)/keyWrapper.o $(buildFolder)/password.o $(buildFolder)/lib.o $(buildFolder)/language.o
-	$(compiler) $(buildFolder)/main.o $(buildFolder)/keyWrapper.o $(buildFolder)/password.o $(buildFolder)/lib.o $(buildFolder)/language.o -o app.exe $(FLAGS)
+app.exe: $(buildFolder)/main.o $(buildFolder)/keyWrapper.o $(buildFolder)/password.o $(buildFolder)/lib.o $(buildFolder)/language.o $(buildFolder)/settings.o
+	$(compiler) $(buildFolder)/main.o $(buildFolder)/keyWrapper.o $(buildFolder)/password.o $(buildFolder)/lib.o $(buildFolder)/language.o $(buildFolder)/settings.o -o app.exe $(FLAGS)
 
 $(buildFolder)/main.o:  main.cpp settings.h language.h lib.h
 	$(compiler) -c main.cpp $(FLAGS) -o $(buildFolder)/main.o
@@ -52,3 +52,6 @@ $(buildFolder)/password.o: password.cpp password.h settings.h
 
 $(buildFolder)/language.o: language.cpp language.h
 	$(compiler) -c language.cpp $(FLAGS) -o $(buildFolder)/language.o
+
+$(buildFolder)/settings.o: settings.cpp settings.h
+	$(compiler) -c settings.cpp $(FLAGS) -o $(buildFolder)/settings.o

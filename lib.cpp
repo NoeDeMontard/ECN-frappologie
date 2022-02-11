@@ -1,3 +1,8 @@
+///
+/// \file lib.cpp
+///	\brief Source des fonctions sans classes.
+///
+
 #include <conio.h>
 #include <math.h>
 #include <vector>
@@ -61,7 +66,7 @@ void moyenneEcartType(vector<vector<long long int>> data, vector<long long int> 
 void registerPasswordTimes(const string passwordFilePath)
 {
     // Check if user exist, if he does, ask for if the user whant to overwrite the old password take (with a password verification in case of overwriting)
-    //if (filesystem::exists(passwordFilePath)) {// If c++17
+    // if (filesystem::exists(passwordFilePath)) {// If c++17
     ifstream ifile; // if c++<17
     ifile.open(passwordFilePath);
     if (ifile)
@@ -130,7 +135,7 @@ void registerPasswordTimes(const string passwordFilePath)
     }
     cout << endl;
 
-    //Rewriting the password and the data in the file
+    // Rewriting the password and the data in the file
     passwordFileTmp << "[Password]" << endl;
     passwordFileTmp << ps << endl;
 
@@ -210,8 +215,8 @@ void registerPasswordTimes(const string passwordFilePath)
 
         // Move the temporary file to the user file
 
-        //filesystem::copy_file(tmpPasswordFilePath, passwordFilePath, filesystem::copy_options::overwrite_existing); // c++17 // Issue :  Doesn't sems to take into account the overwrite part
-        //std::filesystem::remove(tmpPasswordFilePath); // C++17
+        // filesystem::copy_file(tmpPasswordFilePath, passwordFilePath, filesystem::copy_options::overwrite_existing); // c++17 // Issue :  Doesn't sems to take into account the overwrite part
+        // std::filesystem::remove(tmpPasswordFilePath); // C++17
 
         // IF c++<17
         // Copy
@@ -223,7 +228,7 @@ void registerPasswordTimes(const string passwordFilePath)
 
         // Remove tmp file
         remove(tmpPasswordFilePath.c_str());
-        //ENDIF c++<17
+        // ENDIF c++<17
 
         cout << language->registrationSuccess << endl;
     }

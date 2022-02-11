@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
     const string passwordFileName = PASSWORDFILENAME;
     const string passwordFolderPath = PASSWORDFOLDERPATH;
     bool accessGranted = true;
+    VERBOSITY = 1;
     // language defined in language.h and language.cpp
     if (argc > 1)
     {
@@ -37,18 +38,25 @@ int main(int argc, char *argv[])
             }
             else if (state == 1)
             {
-                if (_stricmp(argv[1], "fr") == 0)
+                if (_stricmp(argv[i], "fr") == 0)
                 {
                     language = &french;
                 }
-                else if (_stricmp(argv[1], "en") == 0)
+                else if (_stricmp(argv[i], "en") == 0)
                 {
                     language = &english;
                 }
             }
             else if (state == 2)
             {
-                // TODO : verbosity
+                try
+                {
+                    VERBOSITY = stoi(argv[i]);
+                    VERBOSITY = min(VERBOSITY, MAX_VERBOSITY);
+                }
+                catch (exception e)
+                {
+                }
             }
         }
     }
@@ -69,8 +77,8 @@ int main(int argc, char *argv[])
 
     // Create the passwordFolder if it doesn't exists
     CreateDirectory(passwordFolderPath.c_str(), NULL);
-    //filesystem::create_directory(passwordFolderPath);// If c++17, more portable
-    // Both fail if the passwordFolderPath use a path with a missing parent directory
+    // filesystem::create_directory(passwordFolderPath);// If c++17, more portable
+    //  Both fail if the passwordFolderPath use a path with a missing parent directory
 
     cout << language->welcome << endl;
     cout << language->developpers << endl;

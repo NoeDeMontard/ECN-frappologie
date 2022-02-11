@@ -1,3 +1,8 @@
+///
+/// \file keyWrapper.cpp
+///	\brief Source de keyWrapper, permattant de lier le code d'une touche à sa valeur
+///
+
 #include <conio.h>
 #include <iostream>
 #include <string>

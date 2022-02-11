@@ -1,9 +1,18 @@
+///
+/// \file language.h
+///	\brief Header de la structure language permettant la traduction et déclaration des languages
+///
+
 #pragma once
 #include <string>
 #include <vector>
 
 using namespace std;
 
+///
+/// \struct Language
+/// \brief Définit les chaines de caractère utilisées pour l'affichage du programme
+///
 struct Language
 {
 	const string welcome;
